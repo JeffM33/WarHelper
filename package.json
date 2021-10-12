@@ -15,5 +15,12 @@
   "license": "ISC",
   "devDependencies": {
     "concurrently": "^5.1.0"
+  },
+  "dependencies": {
+    "apollo": "^2.33.6",
+    "express": "^4.17.1",
+    "graphql": "^14.7.0",
+    "nodemon": "^2.0.13",
+    "path": "^0.12.7"
   }
 }
