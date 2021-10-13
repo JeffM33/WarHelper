@@ -8,13 +8,19 @@ const userSchema = new Schema({
     unique: true,
     trim: true,
   },
+  email: {
+    type: String,
+    required: true,
+    unique: true,
+    match: [/.+@.+\..+/, 'Must match an email address!'],
+  },
   password: {
     type: String,
     required: true,
     minlength: 5,
   },
   discord: {
-    type: String
+    type: String,
   },
   level: {
     type: Number,
@@ -23,28 +29,28 @@ const userSchema = new Schema({
     default: 1
   },
   main: {
-    type: String
+    type: String,
   },
   mainLvl: {
     type: Number,
     min: 1,
-    max: 20
+    max: 20,
   },
   secondary: {
-    type: String
+    type: String,
   },
   secondaryLvl: {
     type: Number,
     min: 1,
-    max: 20
+    max: 20,
   },
   wins: {
     type: Number,
-    default: 0
+    default: 0,
   },
   losses: {
     type: Number,
-    default: 0
+    default: 0,
   }
 });
 
