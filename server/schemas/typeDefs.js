@@ -13,6 +13,8 @@ const typeDefs = gql`
     _id: ID
     city: String
     date: String
+    time: String
+    warAuthor: String
     createdAt: String
   }
 
@@ -32,7 +34,7 @@ const typeDefs = gql`
   type Mutation {
     addUser(username: String!, email: String!, password: String!): Auth
     login(email: String!, password: String!): Auth
-    addWar(city: String!, date: Date!, time: String!): War
+    addWar(city: String!, date: String!, time: String!): War
     removeWar(warId: ID!): War
   }
 `;

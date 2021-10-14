@@ -15,7 +15,7 @@ const resolvers = {
       return War.find(params).sort({ createdAt: -1 });
     },
     war: async (parent, { warId }) => {
-      return WritableStream.findOne({ _id: warId });
+      return War.findOne({ _id: warId });
     },
     me: async (parent, args, context) => {
       if (context.user) {
