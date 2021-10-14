@@ -11,13 +11,14 @@ const Signup = () => {
     username: '',
     email: '',
     discord: '',
-    level: 1,
+    level: '',
     main: '',
-    mainLvl: 1,
+    mainLvl: '',
     secondary: '',
-    secondaryLvl: 1,
+    secondaryLvl: '',
     password: '',
   });
+
   const [addUser, { error, data }] = useMutation(ADD_USER);
 
   const handleChange = (event) => {
@@ -80,45 +81,45 @@ const Signup = () => {
                   className="form-input"
                   placeholder="Your Character Level"
                   name="level"
-                  type={Number}
+                  type="text"
                   value={formState.level}
                   onChange={handleChange}
                 />
                 {/* Character Main hand weapon */}
                 {/* Needs drop down */}
-                {/* <input
+                <input
                   className="form-input"
-                  placeholder="Your email"
+                  placeholder="Your Main hand"
                   name="main"
                   type="text"
                   value={formState.main}
                   onChange={handleChange}
-                /> */}
+                />
                 {/* Character Main hand weapon level */}
                 <input
                   className="form-input"
                   placeholder="Your Main Hand level"
                   name="mainLvl"
-                  type={Number}
+                  type="text"
                   value={formState.mainLvl}
                   onChange={handleChange}
                 />
                 {/* Character secondary weapon */}
                 {/* Needs drop down */}
-                {/* <input
+                <input
                   className="form-input"
-                  placeholder="Your email"
+                  placeholder="Your secondary weapon"
                   name="secondary"
                   type="text"
                   value={formState.secondary}
                   onChange={handleChange}
-                /> */}
+                />
                 {/* Character secondary weapon level */}
                 <input
                   className="form-input"
                   placeholder="Your secondary weapon level"
                   name="secondaryLvl"
-                  type={Number}
+                  type="text"
                   value={formState.email}
                   onChange={handleChange}
                 />
