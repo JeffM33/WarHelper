@@ -54,3 +54,11 @@ export const ADD_COMMENT = gql`
     }
   }
 `;
+
+export const ADD_TO_WAR = gql`
+  mutation addToWar($role: String!) {
+    addToWar(role: $role) {
+      
+    }
+  }
+`;
