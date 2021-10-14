@@ -1,6 +1,7 @@
 import React from 'react';
 
-import { Row, Col, Card }  from 'antd';
+import { Row, Col, Card, Tooltip, Button }  from 'antd';
+import { purple } from '@ant-design/colors';
 
 // Import the `useParams()` hook
 // import { useParams } from 'react-router-dom';
@@ -27,26 +28,26 @@ const SingleThought = () => {
   // }
   return (
     <div>
-      <h1 style={{textAlign: 'center'}}> Windsward Invasion </h1>
+      <h1 style={{textAlign: 'center', color: purple[3]}}> Windsward Invasion </h1>
 
-      <Row>
+      <Row justify="space-between">
         
-        <Col className="gutter-row" span={8} style={{textAlign: 'center', padding: '8px 0'}}>
-          <Card title="Tanks" extra={<a href="#">Register</a>} style={{ width: 300 }}>
+        <Col className="gutter-row" span={8} style={{padding: '8px 0'}}>
+          <Card title="Tanks" headStyle={{ fontSize: '27px' }} extra={<Tooltip title="Register for this war as a Tank" color = {purple[3]}><Button color={purple[3]} type="primary" style={{backgroundColor: purple[3], borderColor: purple[3]}} size='small'>Register Now!</Button></Tooltip>} style={{ width: 350 }}>
             <pre style={{fontSize: '12px'}}>Player 1:  Level 60   SS-20 | GA-18</pre>
             <pre style={{fontSize: '12px'}}>Player 2:  Level 60   SS-20 | GA-18</pre>
             <pre style={{fontSize: '12px'}}>Player 3:  Level 60   SS-20 | GA-18</pre>
           </Card>
         </Col>
-        <Col className="gutter-row" span={8} style={{textAlign: 'center', padding: '8px 0'}}>
-          <Card title="Melee DPS" extra={<a href="#">Register</a>} style={{ width: 300 }}>
+        <Col className="gutter-row" span={8} style={{padding: '8px 0'}}>
+          <Card title="Melee DPS" headStyle={{ fontSize: '27px' }} extra={<Tooltip title="Register for this war as a Melee DPS" color = {purple[3]}><Button type="primary" style={{backgroundColor: purple[3], borderColor: purple[3]}} size='small'>Register Now!</Button></Tooltip>} style={{ width: 350 }}>
             <pre style={{fontSize: '12px'}}>Player 1:  Level 60   SS-20 | GA-18</pre>
             <pre style={{fontSize: '12px'}}>Player 2:  Level 60   SS-20 | GA-18</pre>
             <pre style={{fontSize: '12px'}}>Player 3:  Level 60   SS-20 | GA-18</pre>
           </Card>
         </Col>
-        <Col className="gutter-row" span={8} style={{textAlign: 'center', padding: '8px 0'}}>
-          <Card title="Physical DPS" extra={<a href="#">Register</a>} style={{ width: 300 }}>
+        <Col className="gutter-row" span={8} style={{padding: '8px 0'}}>
+          <Card title="Physical DPS" headStyle={{ fontSize: '27px' }} extra={<Tooltip title="Register for this war as a Physical DPS" color = {purple[3]}><Button type="primary" style={{backgroundColor: purple[3], borderColor: purple[3]}} size='small'>Register Now!</Button></Tooltip>} style={{ width: 350 }}>
             <pre style={{fontSize: '12px'}}>Player 1:  Level 60   SS-20 | GA-18</pre>
             <pre style={{fontSize: '12px'}}>Player 2:  Level 60   SS-20 | GA-18</pre>
             <pre style={{fontSize: '12px'}}>Player 3:  Level 60   SS-20 | GA-18</pre>
@@ -54,22 +55,22 @@ const SingleThought = () => {
         </Col>
       </Row>
       <Row>
-        <Col className="gutter-row" span={8} style={{textAlign: 'center', padding: '8px 0'}}>
-          <Card title="Elemental DPS" extra={<a href="#">Register</a>} style={{ width: 300 }}>
+        <Col className="gutter-row" span={8} style={{padding: '8px 0'}}>
+          <Card title="Elemental DPS" headStyle={{ fontSize: '27px' }} extra={<Tooltip title="Register for this war as an Elemental DPS" color = {purple[3]}><Button type="primary" style={{backgroundColor: purple[3], borderColor: purple[3]}} size='small'>Register Now!</Button></Tooltip>} style={{ width: 350 }}>
             <pre style={{fontSize: '12px'}}>Player 1:  Level 60   SS-20 | GA-18</pre>
             <pre style={{fontSize: '12px'}}>Player 2:  Level 60   SS-20 | GA-18</pre>
             <pre style={{fontSize: '12px'}}>Player 3:  Level 60   SS-20 | GA-18</pre>
           </Card>
         </Col>
-        <Col className="gutter-row" span={8} style={{textAlign: 'center', padding: '8px 0'}}>
-          <Card title="Healer" extra={<a href="#">Register</a>} style={{ width: 300 }}>
+        <Col className="gutter-row" span={8} style={{padding: '8px 0'}}>
+          <Card title="Healer" headStyle={{ fontSize: '27px' }} extra={<Tooltip title="Register for this war as a Healer" color = {purple[3]}><Button type="primary" style={{backgroundColor: purple[3], borderColor: purple[3]}} size='small'>Register Now!</Button></Tooltip>} style={{ width: 350 }}>
             <pre style={{fontSize: '12px'}}>Player 1:  Level 60   SS-20 | GA-18</pre>
             <pre style={{fontSize: '12px'}}>Player 2:  Level 60   SS-20 | GA-18</pre>
             <pre style={{fontSize: '12px'}}>Player 3:  Level 60   SS-20 | GA-18</pre>
           </Card>
         </Col>
-        <Col className="gutter-row" span={8} style={{textAlign: 'center', padding: '8px 0'}}>
-          <Card title="Artillery" extra={<a href="#">Register</a>} style={{ width: 300 }}>
+        <Col className="gutter-row" span={8} style={{padding: '8px 0'}}>
+          <Card title="Artillery" headStyle={{ fontSize: '27px' }} extra={<Tooltip title="Register for this war as Artillery" color = {purple[3]}><Button type="primary" style={{backgroundColor: purple[3], borderColor: purple[3]}} size='small'>Register Now!</Button></Tooltip>} style={{ width: 350 }}>
             <pre style={{fontSize: '12px'}}>Player 1:  Level 60   SS-20 | GA-18</pre>
             <pre style={{fontSize: '12px'}}>Player 2:  Level 60   SS-20 | GA-18</pre>
             <pre style={{fontSize: '12px'}}>Player 3:  Level 60   SS-20 | GA-18</pre>
