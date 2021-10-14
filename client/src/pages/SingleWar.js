@@ -15,7 +15,7 @@ import Auth from '../utils/auth';
 
 // import { QUERY_SINGLE_THOUGHT } from '../utils/queries';
 
-const SingleThought = () => {
+const SingleWar = () => {
 
   const [addToWar] = useMutation(ADD_TO_WAR);
 
@@ -173,4 +173,4 @@ const SingleThought = () => {
   );
 };
 
-export default SingleThought;
+export default SingleWar;

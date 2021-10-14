@@ -24,17 +24,15 @@ export const ADD_USER = gql`
   }
 `;
 
-export const ADD_THOUGHT = gql`
-  mutation addThought($thoughtText: String!) {
-    addThought(thoughtText: $thoughtText) {
+export const ADD_WAR = gql`
+  mutation addWar($warText: String!) {
+    addWar(warText: $warText) {
       _id
-      thoughtText
-      thoughtAuthor
+      city
+      date
+      time
+      warAuthor
       createdAt
-      comments {
-        _id
-        commentText
-      }
     }
   }
 `;
@@ -62,3 +60,4 @@ export const ADD_TO_WAR = gql`
     }
   }
 `;
+
