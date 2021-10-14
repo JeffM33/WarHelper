@@ -81,6 +81,11 @@ const resolvers = {
         return war;
       }
       throw new AuthenticationError('You need to be logged in!');
+    },
+
+    addToWar: async (parent, role, context) => {
+      
+
     }
   },
 };
