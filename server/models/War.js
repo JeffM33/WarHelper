@@ -7,11 +7,16 @@ const warSchema = new Schema({
     trim: true
   },
   date: {
-    type: Date,
+    type: String,
     required: true,
     trim: true
   },
   time: {
+    type: String,
+    required: true,
+    trim: true
+  },
+  warAuthor: {
     type: String,
     required: true,
     trim: true

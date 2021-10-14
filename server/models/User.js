@@ -44,7 +44,13 @@ const userSchema = new Schema({
   losses: {
     type: Number,
     default: 0,
-  }
+  },
+  wars: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: 'War',
+    },
+  ]
 });
 
 userSchema.pre('save', async function (next) {

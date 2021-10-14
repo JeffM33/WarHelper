@@ -2,24 +2,28 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useMutation } from '@apollo/client';
 
-import { ADD_THOUGHT } from '../../utils/mutations';
-import { QUERY_THOUGHTS, QUERY_ME } from '../../utils/queries';
+import { ADD_WAR } from '../../utils/mutations';
+import { QUERY_WARS, QUERY_ME } from '../../utils/queries';
 
 import Auth from '../../utils/auth';
 
-const ThoughtForm = () => {
-  const [thoughtText, setThoughtText] = useState('');
+const WarForm = () => {
+  const [city, setCity] = useState('');
+
+  const [date, setDate] = useState('');
+  
+  const [time, setTime] = useState('');
 
   const [characterCount, setCharacterCount] = useState(0);
 
-  const [addThought, { error }] = useMutation(ADD_THOUGHT, {
-    update(cache, { data: { addThought } }) {
+  const [addWar, { error }] = useMutation(ADD_WAR, {
+    update(cache, { data: { addWar } }) {
       try {
-        const { thoughts } = cache.readQuery({ query: QUERY_THOUGHTS });
+        const { wars } = cache.readQuery({ query: QUERY_WARS });
 
         cache.writeQuery({
-          query: QUERY_THOUGHTS,
-          data: { thoughts: [addThought, ...thoughts] },
+          query: QUERY_WARS,
+          data: { wars: [addWar, ...wars] },
         });
       } catch (e) {
         console.error(e);
@@ -29,7 +33,7 @@ const ThoughtForm = () => {
       const { me } = cache.readQuery({ query: QUERY_ME });
       cache.writeQuery({
         query: QUERY_ME,
-        data: { me: { ...me, thoughts: [...me.thoughts, addThought] } },
+        data: { me: { ...me, wars: [...me.wars, addWar] } },
       });
     },
   });
@@ -38,14 +42,18 @@ const ThoughtForm = () => {
     event.preventDefault();
 
     try {
-      const { data } = await addThought({
+      const { data } = await addWar({
         variables: {
-          thoughtText,
-          thoughtAuthor: Auth.getProfile().data.username,
+          city,
+          time,
+          date,
+          warAuthor: Auth.getProfile().data.username,
         },
       });
 
-      setThoughtText('');
+      setCity('');
+      setDate('');
+      setTime('');
     } catch (err) {
       console.error(err);
     }
@@ -54,8 +62,10 @@ const ThoughtForm = () => {
   const handleChange = (event) => {
     const { name, value } = event.target;
 
-    if (name === 'thoughtText' && value.length <= 280) {
-      setThoughtText(value);
+    if (name === 'city' && value.length <= 280) {
+      setCity(value);
+      setDate(value);
+      setTime(value);
       setCharacterCount(value.length);
     }
   };
@@ -79,9 +89,25 @@ const ThoughtForm = () => {
           >
             <div className="col-12 col-lg-9">
               <textarea
-                name="thoughtText"
-                placeholder="Here's a new thought..."
-                value={thoughtText}
+                name="city"
+                placeholder="war city..."
+                value={city}
+                className="form-input w-100"
+                style={{ lineHeight: '1.5', resize: 'vertical' }}
+                onChange={handleChange}
+              ></textarea>
+              <textarea
+                name="date"
+                placeholder="war date..."
+                value={date}
+                className="form-input w-100"
+                style={{ lineHeight: '1.5', resize: 'vertical' }}
+                onChange={handleChange}
+              ></textarea>
+              <textarea
+                name="time"
+                placeholder="war time..."
+                value={time}
                 className="form-input w-100"
                 style={{ lineHeight: '1.5', resize: 'vertical' }}
                 onChange={handleChange}
@@ -90,7 +116,7 @@ const ThoughtForm = () => {
 
             <div className="col-12 col-lg-3">
               <button className="btn btn-primary btn-block py-3" type="submit">
-                Add Thought
+                Add War
               </button>
             </div>
             {error && (
@@ -102,7 +128,7 @@ const ThoughtForm = () => {
         </>
       ) : (
         <p>
-          You need to be logged in to share your thoughts. Please{' '}
+          You need to be logged in to share your wars. Please{' '}
           <Link to="/login">login</Link> or <Link to="/signup">signup.</Link>
         </p>
       )}
@@ -110,4 +136,4 @@ const ThoughtForm = () => {
   );
 };
 
-export default ThoughtForm;
+export default WarForm;

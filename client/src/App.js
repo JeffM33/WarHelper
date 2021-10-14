@@ -12,7 +12,7 @@ import 'antd/dist/antd.css';
 
 import Home from './pages/Home';
 import LoginSignup from './pages/loginSignup';
-import SingleThought from './pages/SingleThought';
+import SingleWar from './pages/SingleWar';
 import Profile from './pages/Profile';
 import Header from './components/Header';
 import Footer from './components/Footer';
@@ -61,8 +61,8 @@ function App() {
             <Route exact path="/profiles/:username">
               <Profile />
             </Route>
-            <Route exact path="/thoughts/:thoughtId">
-              <SingleThought />
+            <Route exact path="/wars/:warId">
+              <SingleWar />
             </Route>
           </div>
           <Footer />
