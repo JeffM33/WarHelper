@@ -33,10 +33,10 @@ const Header = () => {
            <>=
            <Space>
               <Button style={{backgroundColor: purple[3], color: 'white'}}>
-              <Link to="/login">Login</Link>
+              <Link to="/loginSignup">Login</Link>
               </Button>
               <Button style={{backgroundColor: purple[3], color: 'white'}}>
-              <Link to="/signup">Signup</Link>
+              <Link to="/loginSignup">Signup</Link>
               </Button>
             </Space>
            </>

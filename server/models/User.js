@@ -23,26 +23,19 @@ const userSchema = new Schema({
     type: String,
   },
   level: {
-    type: Number,
-    min: 1,
-    max: 60,
-    default: 1,
+    type: String,
   },
   main: {
     type: String,
   },
   mainLvl: {
-    type: Number,
-    min: 1,
-    max: 20,
+    type: String,
   },
   secondary: {
     type: String,
   },
   secondaryLvl: {
-    type: Number,
-    min: 1,
-    max: 20,
+    type: String,
   },
   wins: {
     type: Number,
