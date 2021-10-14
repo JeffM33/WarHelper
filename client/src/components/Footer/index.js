@@ -16,7 +16,7 @@ const Footer = () => {
           </button>
         )}
         <h4>
-          Made by Bailey, Jeffrey, and Jonathan.
+          Made by Bailey, Jeffrey, and Jonathan!
         </h4>
       </div>
     </footer>
