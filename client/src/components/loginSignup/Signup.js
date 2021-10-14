@@ -10,6 +10,12 @@ const Signup = () => {
   const [formState, setFormState] = useState({
     username: '',
     email: '',
+    discord: '',
+    level: 1,
+    main: '',
+    mainLvl: 1,
+    secondary: '',
+    secondaryLvl: 1,
     password: '',
   });
   const [addUser, { error, data }] = useMutation(ADD_USER);
@@ -50,6 +56,7 @@ const Signup = () => {
                 <Link to="/">back to the homepage.</Link>
               </p>
             ) : (
+              // User Name
               <form onSubmit={handleFormSubmit}>
                 <input
                   className="form-input"
@@ -59,6 +66,7 @@ const Signup = () => {
                   value={formState.name}
                   onChange={handleChange}
                 />
+                {/* Email address */}
                 <input
                   className="form-input"
                   placeholder="Your email"
@@ -67,6 +75,63 @@ const Signup = () => {
                   value={formState.email}
                   onChange={handleChange}
                 />
+                {/* Character level */}
+                <input
+                  className="form-input"
+                  placeholder="Your Character Level"
+                  name="level"
+                  type={Number}
+                  value={formState.level}
+                  onChange={handleChange}
+                />
+                {/* Character Main hand weapon */}
+                {/* Needs drop down */}
+                {/* <input
+                  className="form-input"
+                  placeholder="Your email"
+                  name="main"
+                  type="text"
+                  value={formState.main}
+                  onChange={handleChange}
+                /> */}
+                {/* Character Main hand weapon level */}
+                <input
+                  className="form-input"
+                  placeholder="Your Main Hand level"
+                  name="mainLvl"
+                  type={Number}
+                  value={formState.mainLvl}
+                  onChange={handleChange}
+                />
+                {/* Character secondary weapon */}
+                {/* Needs drop down */}
+                {/* <input
+                  className="form-input"
+                  placeholder="Your email"
+                  name="secondary"
+                  type="text"
+                  value={formState.secondary}
+                  onChange={handleChange}
+                /> */}
+                {/* Character secondary weapon level */}
+                <input
+                  className="form-input"
+                  placeholder="Your secondary weapon level"
+                  name="secondaryLvl"
+                  type={Number}
+                  value={formState.email}
+                  onChange={handleChange}
+                />
+                {/* Users Discord id */}
+                <input
+                  className="form-input"
+                  placeholder="Your discord id"
+                  name="discord"
+                  type="text"
+                  value={formState.discord}
+                  onChange={handleChange}
+                />
+                {/* password */}
                 <input
                   className="form-input"
                   placeholder="******"
@@ -75,6 +140,7 @@ const Signup = () => {
                   value={formState.password}
                   onChange={handleChange}
                 />
+                {/* Submit */}
                 <button
                   className="btn btn-block btn-primary"
                   style={{ cursor: 'pointer' }}
