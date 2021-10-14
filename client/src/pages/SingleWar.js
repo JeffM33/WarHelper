@@ -1,6 +1,6 @@
-import React from 'react';
+import React,{ useState } from 'react';
 
-import { Row, Col, Card, Tooltip, Button, Modal }  from 'antd';
+import { Row, Col, Card, Tooltip, Button, Modal, Select, Form }  from 'antd';
 import { purple } from '@ant-design/colors';
 
 // import { useParams } from 'react-router-dom';
@@ -14,6 +14,8 @@ import { purple } from '@ant-design/colors';
 // // import CommentForm from '../components/CommentForm';
 
 // import { QUERY_SINGLE_THOUGHT } from '../utils/queries';
+
+const { Option } = Select;
 
 const SingleWar = () => {
 
@@ -56,21 +58,16 @@ const SingleWar = () => {
   //   return <div>Loading...</div>
   // }
 
-  const [visible, setVisible] = React.useState(false);
-  const [confirmLoading, setConfirmLoading] = React.useState(false);
-  const [modalText, setModalText] = React.useState('Content of the modal');
+  const [visible, setVisible] = useState(false);
+  const [confirmLoading, setConfirmLoading] = useState(false);
+  const [modalText, setModalText] = useState('');
+  const [form] = Form.useForm();
+  const [role, setRole] = useState('') ; 
 
-  const showModal = () => {
+  const showModal = (e) => {
     setVisible(true);
-  };
-
-  const handleOk = () => {
-    setModalText('The modal will be closed after two seconds');
-    setConfirmLoading(true);
-    setTimeout(() => {
-      setVisible(false);
-      setConfirmLoading(false);
-    }, 2000);
+    setModalText('');
+    setRole(e.target.dataset.role);
   };
 
   const handleCancel = () => {
@@ -78,25 +75,54 @@ const SingleWar = () => {
     setVisible(false);
   };
 
+  const onFinish = (values) => {
+    console.log('Success!', values, 'role:', role);
+    setModalText('Thank you for registering!');
+    setConfirmLoading(true);
+    form.resetFields();
+    setTimeout(() => {
+      setVisible(false);
+      setConfirmLoading(false);
+    }, 2000);
+  }
+
   return (
     <div>
       <h1 style={{textAlign: 'center', color: purple[3]}}> Windsward Invasion </h1>
+
+      <Modal
+        title='Please select your primary and secondary weapons.'
+        visible={visible}
+        confirmLoading={confirmLoading}
+        onCancel={handleCancel}
+        footer={''}
+      >
+        <p>{modalText}</p>
+        <Form layout='vertical' form={form} onFinish={onFinish}>
+          <Form.Item name="Primary-weapon" label="Primary-weapon" rules={[{ required: true, message: 'Please select a weapon!'}]}>
+            <Select style={{ width: '50%', margin: '5px' }} placeholder="Primary Weapon" allowClear>
+              <Option value="Option1-1">Option1-1</Option>
+              <Option value="Option1-2">Option1-2</Option>
+            </Select>
+          </Form.Item>
+          <Form.Item name="Secondary-weapon" label="Secondary-weapon" rules={[{ required: true, message: 'Please select a weapon!'}]}>            
+            <Select style={{ width: '50%', margin: '5px' }} placeholder="Secondary Weapon" allowClear>
+              <Option value="Option2-1">Option2-1</Option>
+              <Option value="Option2-2">Option2-2</Option>
+            </Select>            
+          </Form.Item>
+          <Form.Item>
+            <Button key="submit" style={{backgroundColor: purple[3], borderColor: purple[3]}} type="primary" loading={confirmLoading} htmlType="submit">Submit</Button>
+          </Form.Item>
+        </Form>
+      </Modal>
 
       <Row justify="space-between">
         
         <Col className="gutter-row" span={8} style={{padding: '8px 0'}}>
           <Card title="Tanks" headStyle={{ fontSize: '27px' }} extra={<Tooltip title="Register for this war as a Tank" color = {purple[3]}>
-            <Button onClick={showModal} color={purple[3]} type="primary" style={{backgroundColor: purple[3], borderColor: purple[3]}} size='small'>Register Now!</Button>
+            <Button onClick={showModal} color={purple[3]} type="primary" style={{backgroundColor: purple[3], borderColor: purple[3]}} size='small'><span data-role='tank'>Register Now!</span></Button>
             </Tooltip>} style={{ width: 350 }}>
-            <Modal 
-              title="Tank registration"
-              visible={visible}
-              onOk={handleOk}
-              confirmLoading={confirmLoading}
-              onCancel={handleCancel}
-            >
-              <p>{modalText}</p>
-            </Modal>
             <pre style={{fontSize: '12px'}}>Player 1:  Level 60   SS-20 | GA-18</pre>
             <pre style={{fontSize: '12px'}}>Player 2:  Level 60   SS-20 | GA-18</pre>
             <pre style={{fontSize: '12px'}}>Player 3:  Level 60   SS-20 | GA-18</pre>
@@ -109,17 +135,8 @@ const SingleWar = () => {
         </Col>
         <Col className="gutter-row" span={8} style={{padding: '8px 0'}}>
           <Card title="Melee DPS" headStyle={{ fontSize: '27px' }} extra={<Tooltip title="Register for this war as a Melee DPS" color = {purple[3]}>
-            <Button type="primary" style={{backgroundColor: purple[3], borderColor: purple[3]}} size='small'>Register Now!</Button>
+            <Button onClick={showModal} type="primary" style={{backgroundColor: purple[3], borderColor: purple[3]}} size='small'><span data-role='mDPS'>Register Now!</span></Button>
             </Tooltip>} style={{ width: 350 }}>
-            <Modal 
-              title="Melee DPS registration"
-              visible={visible}
-              onOk={handleOk}
-              confirmLoading={confirmLoading}
-              onCancel={handleCancel}
-            >
-              <p>{modalText}</p>
-            </Modal>
             <pre style={{fontSize: '12px'}}>Player 1:  Level 60   SS-20 | GA-18</pre>
             <pre style={{fontSize: '12px'}}>Player 2:  Level 60   SS-20 | GA-18</pre>
             <pre style={{fontSize: '12px'}}>Player 3:  Level 60   SS-20 | GA-18</pre>
@@ -132,17 +149,8 @@ const SingleWar = () => {
         </Col>
         <Col className="gutter-row" span={8} style={{padding: '8px 0'}}>
           <Card title="Physical DPS" headStyle={{ fontSize: '27px' }} extra={<Tooltip title="Register for this war as a Physical DPS" color = {purple[3]}>
-            <Button type="primary" style={{backgroundColor: purple[3], borderColor: purple[3]}} size='small'>Register Now!</Button>
+            <Button onClick={showModal} type="primary" style={{backgroundColor: purple[3], borderColor: purple[3]}} size='small'><span data-role='pDPS'>Register Now!</span></Button>
             </Tooltip>} style={{ width: 350 }}>
-            <Modal 
-              title="Physical DPS registration"
-              visible={visible}
-              onOk={handleOk}
-              confirmLoading={confirmLoading}
-              onCancel={handleCancel}
-            >
-              <p>{modalText}</p>
-            </Modal>
             <pre style={{fontSize: '12px'}}>Player 1:  Level 60   SS-20 | GA-18</pre>
             <pre style={{fontSize: '12px'}}>Player 2:  Level 60   SS-20 | GA-18</pre>
             <pre style={{fontSize: '12px'}}>Player 3:  Level 60   SS-20 | GA-18</pre>
@@ -157,17 +165,8 @@ const SingleWar = () => {
       <Row>
         <Col className="gutter-row" span={8} style={{padding: '8px 0'}}>
           <Card title="Elemental DPS" headStyle={{ fontSize: '27px' }} extra={<Tooltip title="Register for this war as an Elemental DPS" color = {purple[3]}>
-            <Button type="primary" style={{backgroundColor: purple[3], borderColor: purple[3]}} size='small'>Register Now!</Button>
+            <Button onClick={showModal} type="primary" style={{backgroundColor: purple[3], borderColor: purple[3]}} size='small'><span data-role='eDPS'>Register Now!</span></Button>
             </Tooltip>} style={{ width: 350 }}>
-            <Modal 
-              title="Elemental DPS registration"
-              visible={visible}
-              onOk={handleOk}
-              confirmLoading={confirmLoading}
-              onCancel={handleCancel}
-            >
-              <p>{modalText}</p>
-            </Modal>
             <pre style={{fontSize: '12px'}}>Player 1:  Level 60   SS-20 | GA-18</pre>
             <pre style={{fontSize: '12px'}}>Player 2:  Level 60   SS-20 | GA-18</pre>
             <pre style={{fontSize: '12px'}}>Player 3:  Level 60   SS-20 | GA-18</pre>
@@ -180,17 +179,8 @@ const SingleWar = () => {
         </Col>
         <Col className="gutter-row" span={8} style={{padding: '8px 0'}}>
           <Card title="Healer" headStyle={{ fontSize: '27px' }} extra={<Tooltip title="Register for this war as a Healer" color = {purple[3]}>
-            <Button type="primary" style={{backgroundColor: purple[3], borderColor: purple[3]}} size='small'>Register Now!</Button>
+            <Button onClick={showModal} type="primary" style={{backgroundColor: purple[3], borderColor: purple[3]}} size='small'><span data-role='healer'>Register Now!</span></Button>
             </Tooltip>} style={{ width: 350 }}>
-            <Modal 
-              title="Healer registration"
-              visible={visible}
-              onOk={handleOk}
-              confirmLoading={confirmLoading}
-              onCancel={handleCancel}
-            >
-              <p>{modalText}</p>
-            </Modal>
             <pre style={{fontSize: '12px'}}>Player 1:  Level 60   SS-20 | GA-18</pre>
             <pre style={{fontSize: '12px'}}>Player 2:  Level 60   SS-20 | GA-18</pre>
             <pre style={{fontSize: '12px'}}>Player 3:  Level 60   SS-20 | GA-18</pre>
@@ -203,17 +193,8 @@ const SingleWar = () => {
         </Col>
         <Col className="gutter-row" span={8} style={{padding: '8px 0'}}>
           <Card title="Artillery" headStyle={{ fontSize: '27px' }} extra={<Tooltip title="Register for this war as Artillery" color = {purple[3]}>
-            <Button type="primary" style={{backgroundColor: purple[3], borderColor: purple[3]}} size='small'>Register Now!</Button>
+            <Button onClick={showModal} type="primary" style={{backgroundColor: purple[3], borderColor: purple[3]}} size='small'><span data-role='artillery'>Register Now!</span></Button>
             </Tooltip>} style={{ width: 350 }}>
-            <Modal 
-              title="Artillery registration"
-              visible={visible}
-              onOk={handleOk}
-              confirmLoading={confirmLoading}
-              onCancel={handleCancel}
-            >
-              <p>{modalText}</p>
-            </Modal>
             <pre style={{fontSize: '12px'}}>Player 1:  Level 60   SS-20 | GA-18</pre>
             <pre style={{fontSize: '12px'}}>Player 2:  Level 60   SS-20 | GA-18</pre>
             <pre style={{fontSize: '12px'}}>Player 3:  Level 60   SS-20 | GA-18</pre>
