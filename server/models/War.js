@@ -16,6 +16,11 @@ const warSchema = new Schema({
     required: true,
     trim: true
   },
+  warAuthor: {
+    type: String,
+    required: true,
+    trim: true
+  },
   dps: {
     type: Array
   },

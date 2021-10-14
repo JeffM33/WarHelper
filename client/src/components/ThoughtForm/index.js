@@ -41,7 +41,7 @@ const ThoughtForm = () => {
       const { data } = await addThought({
         variables: {
           thoughtText,
-          thoughtAuthor: Auth.getProfile().data.username,
+          warAuthor: Auth.getProfile().data.username,
         },
       });
 
