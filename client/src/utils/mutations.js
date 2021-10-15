@@ -25,14 +25,13 @@ export const ADD_USER = gql`
 `;
 
 export const ADD_WAR = gql`
-  mutation addWar($warText: String!) {
-    addWar(warText: $warText) {
+  mutation addWar($city: String!, $time: String!, $date: String!) {
+    addWar(city: $city, time: $time, date: $date) {
       _id
       city
       date
       time
       warAuthor
-      createdAt
     }
   }
 `;
