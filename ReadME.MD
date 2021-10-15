@@ -58,7 +58,9 @@ We want to add a Company leader login and put the add war behind this feature.
 
 We also want to add a how to use the bot, and select discord servers to add pings only on servers the user has the admin powers and rights to. 
 
-A War Archive page to be listed on for the individual users as well so they can see the wars they participated int
+A War Archive page to be listed on for the individual users as well so they can see the wars they participated in.
+
+Standardized CSS page that will allow us to implement different word coloring based on faction player is associated with.
 
 
 <!-- CONTRIBUTING -->
