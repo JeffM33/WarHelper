@@ -7,7 +7,7 @@ const WarList = ({
   wars,
   title,
   showTitle = true
-}) => {
+  }) => {
   if (!wars.length) {
     return <h3 style={{ color: purple[3] }}>No Wars Yet</h3>;
   }

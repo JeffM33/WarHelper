@@ -32,7 +32,6 @@ export const ADD_WAR = gql`
       date
       time
       warAuthor
-      createdAt
     }
   }
 `;
