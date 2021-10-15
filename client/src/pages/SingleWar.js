@@ -3,12 +3,13 @@ import React,{ useState } from 'react';
 import { Row, Col, Card, Tooltip, Button, Modal, Select, Form }  from 'antd';
 import { purple } from '@ant-design/colors';
 
-// import { useParams } from 'react-router-dom';
-// import { useQuery, useMutation } from '@apollo/client';
+import { useParams } from 'react-router-dom';
+import { useQuery, useMutation } from '@apollo/client';
 
-// import { QUERY_SINGLE_WAR, ADD_TO_WAR } from '../utils/queries';
+import { QUERY_SINGLE_WAR } from '../utils/queries';
+import { ADD_TO_WAR } from '../utils/mutations';
 
-// import Auth from '../utils/auth';
+import Auth from '../utils/auth';
 
 // // import CommentList from '../components/CommentList';
 // // import CommentForm from '../components/CommentForm';
@@ -19,55 +20,41 @@ const { Option } = Select;
 
 const SingleWar = () => {
 
-  // const [addToWar] = useMutation(ADD_TO_WAR);
+  const [addToWar] = useMutation(ADD_TO_WAR);
 
-  // const { warId } = useParams();
+  const { warId } = useParams();
 
-  // const { loading, data } = useQuery(QUERY_SINGLE_WAR, {
-  //   variables: { warId: warId }
-  // });
+  const { loading, data } = useQuery(QUERY_SINGLE_WAR, {
+    variables: { warId: warId }
+  });
+  
+  const war = data?.war;
+  const tanks = war?.tanks || [];
+  const mdps = war?.mdps || [];
+  const prdps = war?.prdps || [];
+  const erdps = war?.erdps || [];
+  const healers = war?.healers || [];
+  const artillery = war?.artillery || [];
 
-  // const war = data?.war || {};
-  // const users = war.users;
-  // const tanks = users.filter(user => user.role === 'tank');
-  // const mDPS = users.filter(user => user.role === 'mDPS');
-  // const pDPS = users.filter(user => user.role === 'pDPS');
-  // const eDPS = users.filter(user => user.role === 'eDPS');
-  // const healers = users.filter(user => user.role === 'healer');
-  // const artillery = users.filter(user => user.role === 'artillery');
-
-  // const handleRegister = async (role) => {
-  //   const token = Auth.loggedIn() ? Auth.getToken() : null;
-
-  //   if (!token) {
-  //     return false;
-  //   }
-
-  //   try {
-  //     const { data } = await addToWar({ variables: { role } });
-
-  //     if (!data) {
-  //       throw new Error("Couldn't add user to war!");
-  //     }
-  //   } catch (err) {
-  //     console.log(err)
-  //   }
-  // }
-
-  // if (loading) {
-  //   return <div>Loading...</div>
-  // }
 
   const [visible, setVisible] = useState(false);
   const [confirmLoading, setConfirmLoading] = useState(false);
   const [modalText, setModalText] = useState('');
   const [form] = Form.useForm();
-  const [role, setRole] = useState('') ; 
+  const [role, setRole] = useState('');
+
+  if (loading) {
+    return <div>Loading...</div>
+  }
+
+  const token = Auth.loggedIn() ? Auth.getToken() : null;
+  
+  const display = Auth.loggedIn() ? 'inline' : 'none';
 
   const wepLvls = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20'];
   const charLvls = []
   for(let i=1; i<61; i++) {
-    charLvls.push(i);
+    charLvls.push(`${i}`);
   }
   const weps = [{name: 'Sword and Shield', abr: 'SS'}, 
                 {name: 'Rapier', abr: 'RA'}, 
@@ -94,7 +81,26 @@ const SingleWar = () => {
     setVisible(false);
   };
 
-  const onFinish = (values) => {
+  const onFinish = async (values) => {
+    
+    if (!token) {
+      return false;
+    }
+
+    try {
+      const charLvl = values.charLvl;
+      const primaryWep = values.primaryWep;
+      const primaryWepLvl = values.primaryWepLvl;
+      const secondaryWep = values.secondaryWep;
+      const secondaryWepLvl = values.secondaryWepLvl;
+      const { data } = await addToWar({ variables: { warId, charLvl, primaryWep, primaryWepLvl, secondaryWep, secondaryWepLvl, role } });
+      if (!data) {
+        throw new Error("Couldn't add user to war!");
+      }
+    } catch (err) {
+      console.log(err)
+    }
+
     console.log('Success!', values, 'role:', role);
     setModalText('Thank you for registering!');
     setConfirmLoading(true);
@@ -107,7 +113,7 @@ const SingleWar = () => {
 
   return (
     <div>
-      <h1 style={{textAlign: 'center', color: purple[3]}}> Windsward Invasion </h1>
+      <h1 style={{textAlign: 'center', color: purple[3]}}>{war.city}</h1>
 
       <Modal
         title=''
@@ -118,7 +124,7 @@ const SingleWar = () => {
       >
         <p>{modalText}</p>
         <Form layout='vertical' form={form} onFinish={onFinish}>
-        <Form.Item name="character-level" label="Character Level" rules={[{ required: true, message: 'Please select your level!'}]}>
+        <Form.Item name="charLvl" label="Character Level" rules={[{ required: true, message: 'Please select your level!'}]}>
             <Select style={{ width: '50%', margin: '5px' }} placeholder="Character Level" allowClear>
               {charLvls.map((lvl) => {
                 return (
@@ -127,7 +133,7 @@ const SingleWar = () => {
               })}
             </Select>
           </Form.Item>
-          <Form.Item name="primary-weapon" label="Primary Weapon" rules={[{ required: true, message: 'Please select a weapon!'}]}>
+          <Form.Item name="primaryWep" label="Primary Weapon" rules={[{ required: true, message: 'Please select a weapon!'}]}>
             <Select style={{ width: '50%', margin: '5px' }} placeholder="Primary Weapon" allowClear>
               {weps.map((wep) => {
                 return (
@@ -136,7 +142,7 @@ const SingleWar = () => {
               })}
             </Select>
           </Form.Item>
-          <Form.Item name="primary-weapon-level" label="Primary Weapon Level" rules={[{ required: true, message: 'Please select a weapon level!'}]}>
+          <Form.Item name="primaryWepLvl" label="Primary Weapon Level" rules={[{ required: true, message: 'Please select a weapon level!'}]}>
             <Select style={{ width: '50%', margin: '5px' }} placeholder="Lvl" allowClear>
               {wepLvls.map((lvl) => {
                 return (
@@ -146,7 +152,7 @@ const SingleWar = () => {
             </Select>
           </Form.Item>
 
-          <Form.Item name="secondary-weapon" label="Secondary Weapon" rules={[{ required: true, message: 'Please select a weapon!'}]}>            
+          <Form.Item name="secondaryWep" label="Secondary Weapon" rules={[{ required: true, message: 'Please select a weapon!'}]}>            
             <Select style={{ width: '50%', margin: '5px' }} placeholder="Secondary Weapon" allowClear>
               {weps.map((wep) => {
                 return (
@@ -155,7 +161,7 @@ const SingleWar = () => {
               })}
             </Select>            
           </Form.Item>
-          <Form.Item name="secondary-weapon-level" label="Secondary Weapon Level" rules={[{ required: true, message: 'Please select a weapon level!'}]}>
+          <Form.Item name="secondaryWepLvl" label="Secondary Weapon Level" rules={[{ required: true, message: 'Please select a weapon level!'}]}>
             <Select style={{ width: '50%', margin: '5px' }} placeholder="Lvl" allowClear>
               {wepLvls.map((lvl) => {
                 return (
@@ -174,88 +180,88 @@ const SingleWar = () => {
         
         <Col className="gutter-row" span={8} style={{padding: '8px 0'}}>
           <Card title="Tanks" headStyle={{ fontSize: '27px' }} extra={<Tooltip title="Register for this war as a Tank" color = {purple[3]}>
-            <Button onClick={showModal} color={purple[3]} type="primary" style={{backgroundColor: purple[3], borderColor: purple[3]}} size='small'><span data-role='tanks'>Register Now!</span></Button>
+            <Button onClick={showModal} color={purple[3]} type="primary" style={{backgroundColor: purple[3], borderColor: purple[3], display: display}} size='small'><span data-role='tanks'>Register Now!</span></Button>
             </Tooltip>} style={{ width: 350 }}>
             <pre style={{fontSize: '12px'}}>Player 1:  Level 60   SS-20 | GA-18</pre>
             <pre style={{fontSize: '12px'}}>Player 2:  Level 60   SS-20 | GA-18</pre>
             <pre style={{fontSize: '12px'}}>Player 3:  Level 60   SS-20 | GA-18</pre>
-            {/* {tanks.map((user) => {
+            {tanks.map((user) => {
               return (
-                <pre style={{fontSize: '12px'}}>{user.name}:  {user.level}   {user.primary} | {user.secondary}</pre>
+                <pre style={{fontSize: '12px'}}>{user.username}:  Level {user.charLvl}   {user.primaryWep} {user.primaryWepLvl} | {user.secondaryWep} {user.secondaryWepLvl}</pre>
               )
-            })} */}
+            })}
           </Card>
         </Col>
         <Col className="gutter-row" span={8} style={{padding: '8px 0'}}>
           <Card title="Melee DPS" headStyle={{ fontSize: '27px' }} extra={<Tooltip title="Register for this war as a Melee DPS" color = {purple[3]}>
-            <Button onClick={showModal} type="primary" style={{backgroundColor: purple[3], borderColor: purple[3]}} size='small'><span data-role='mdps'>Register Now!</span></Button>
+            <Button onClick={showModal} type="primary" style={{backgroundColor: purple[3], borderColor: purple[3], display: display}} size='small'><span data-role='mdps'>Register Now!</span></Button>
             </Tooltip>} style={{ width: 350 }}>
             <pre style={{fontSize: '12px'}}>Player 1:  Level 60   SS-20 | GA-18</pre>
             <pre style={{fontSize: '12px'}}>Player 2:  Level 60   SS-20 | GA-18</pre>
             <pre style={{fontSize: '12px'}}>Player 3:  Level 60   SS-20 | GA-18</pre>
-            {/* {mDPS.map((user) => {
+            {mdps.map((user) => {
               return (
-                <pre style={{fontSize: '12px'}}>{user.name}:  {user.level}   {user.primary} | {user.secondary}</pre>
+                <pre style={{fontSize: '12px'}}>{user.username}:  Level {user.charLvl}   {user.primaryWep} {user.primaryWepLvl} | {user.secondaryWep} {user.secondaryWepLvl}</pre>
               )
-            })} */}
+            })}
           </Card>
         </Col>
         <Col className="gutter-row" span={8} style={{padding: '8px 0'}}>
           <Card title="Physical DPS" headStyle={{ fontSize: '27px' }} extra={<Tooltip title="Register for this war as a Physical DPS" color = {purple[3]}>
-            <Button onClick={showModal} type="primary" style={{backgroundColor: purple[3], borderColor: purple[3]}} size='small'><span data-role='prdps'>Register Now!</span></Button>
+            <Button onClick={showModal} type="primary" style={{backgroundColor: purple[3], borderColor: purple[3], display: display}} size='small'><span data-role='prdps'>Register Now!</span></Button>
             </Tooltip>} style={{ width: 350 }}>
             <pre style={{fontSize: '12px'}}>Player 1:  Level 60   SS-20 | GA-18</pre>
             <pre style={{fontSize: '12px'}}>Player 2:  Level 60   SS-20 | GA-18</pre>
             <pre style={{fontSize: '12px'}}>Player 3:  Level 60   SS-20 | GA-18</pre>
-            {/* {pDPS.map((user) => {
+            {prdps.map((user) => {
               return (
-                <pre style={{fontSize: '12px'}}>{user.name}:  {user.level}   {user.primary} | {user.secondary}</pre>
+                <pre style={{fontSize: '12px'}}>{user.username}:  Level {user.charLvl}   {user.primaryWep} {user.primaryWepLvl} | {user.secondaryWep} {user.secondaryWepLvl}</pre>
               )
-            })} */}
+            })}
           </Card>
         </Col>
       </Row>
       <Row>
         <Col className="gutter-row" span={8} style={{padding: '8px 0'}}>
           <Card title="Elemental DPS" headStyle={{ fontSize: '27px' }} extra={<Tooltip title="Register for this war as an Elemental DPS" color = {purple[3]}>
-            <Button onClick={showModal} type="primary" style={{backgroundColor: purple[3], borderColor: purple[3]}} size='small'><span data-role='erdps'>Register Now!</span></Button>
+            <Button onClick={showModal} type="primary" style={{backgroundColor: purple[3], borderColor: purple[3], display: display}} size='small'><span data-role='erdps'>Register Now!</span></Button>
             </Tooltip>} style={{ width: 350 }}>
             <pre style={{fontSize: '12px'}}>Player 1:  Level 60   SS-20 | GA-18</pre>
             <pre style={{fontSize: '12px'}}>Player 2:  Level 60   SS-20 | GA-18</pre>
             <pre style={{fontSize: '12px'}}>Player 3:  Level 60   SS-20 | GA-18</pre>
-            {/* {eDPS.map((user) => {
+            {erdps.map((user) => {
               return (
-                <pre style={{fontSize: '12px'}}>{user.name}:  {user.level}   {user.primary} | {user.secondary}</pre>
+                <pre style={{fontSize: '12px'}}>{user.username}:  Level {user.charLvl}   {user.primaryWep} {user.primaryWepLvl} | {user.secondaryWep} {user.secondaryWepLvl}</pre>
               )
-            })} */}
+            })}
           </Card>
         </Col>
         <Col className="gutter-row" span={8} style={{padding: '8px 0'}}>
           <Card title="Healer" headStyle={{ fontSize: '27px' }} extra={<Tooltip title="Register for this war as a Healer" color = {purple[3]}>
-            <Button onClick={showModal} type="primary" style={{backgroundColor: purple[3], borderColor: purple[3]}} size='small'><span data-role='healers'>Register Now!</span></Button>
+            <Button onClick={showModal} type="primary" style={{backgroundColor: purple[3], borderColor: purple[3], display: display}} size='small'><span data-role='healers'>Register Now!</span></Button>
             </Tooltip>} style={{ width: 350 }}>
             <pre style={{fontSize: '12px'}}>Player 1:  Level 60   SS-20 | GA-18</pre>
             <pre style={{fontSize: '12px'}}>Player 2:  Level 60   SS-20 | GA-18</pre>
             <pre style={{fontSize: '12px'}}>Player 3:  Level 60   SS-20 | GA-18</pre>
-            {/* {healers.map((user) => {
+            {healers.map((user) => {
               return (
-                <pre style={{fontSize: '12px'}}>{user.name}:  {user.level}   {user.primary} | {user.secondary}</pre>
+                <pre style={{fontSize: '12px'}}>{user.username}:  Level {user.charLvl}   {user.primaryWep} {user.primaryWepLvl} | {user.secondaryWep} {user.secondaryWepLvl}</pre>
               )
-            })} */}
+            })}
           </Card>
         </Col>
         <Col className="gutter-row" span={8} style={{padding: '8px 0'}}>
           <Card title="Artillery" headStyle={{ fontSize: '27px' }} extra={<Tooltip title="Register for this war as Artillery" color = {purple[3]}>
-            <Button onClick={showModal} type="primary" style={{backgroundColor: purple[3], borderColor: purple[3]}} size='small'><span data-role='artillery'>Register Now!</span></Button>
+            <Button onClick={showModal} type="primary" style={{backgroundColor: purple[3], borderColor: purple[3], display: display}} size='small'><span data-role='artillery'>Register Now!</span></Button>
             </Tooltip>} style={{ width: 350 }}>
             <pre style={{fontSize: '12px'}}>Player 1:  Level 60   SS-20 | GA-18</pre>
             <pre style={{fontSize: '12px'}}>Player 2:  Level 60   SS-20 | GA-18</pre>
             <pre style={{fontSize: '12px'}}>Player 3:  Level 60   SS-20 | GA-18</pre>
-            {/* {artillery.map((user) => {
+            {artillery.map((user) => {
               return (
-                <pre style={{fontSize: '12px'}}>{user.name}:  {user.level}   {user.primary} | {user.secondary}</pre>
+                <pre style={{fontSize: '12px'}}>{user.username}:  Level {user.charLvl}   {user.primaryWep} {user.primaryWepLvl} | {user.secondaryWep} {user.secondaryWepLvl}</pre>
               )
-            })} */}
+            })}
           </Card>
         </Col>
       </Row>
