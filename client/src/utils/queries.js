@@ -12,7 +12,6 @@ export const QUERY_USER = gql`
         date
         time
         warAuthor
-        createdAt
       }
     }
   }
@@ -26,7 +25,6 @@ export const QUERY_WARS = gql`
       date
       time
       warAuthor
-      createdAt
     }
   }
 `;
@@ -39,7 +37,54 @@ export const QUERY_SINGLE_WAR = gql`
       date
       time
       warAuthor
-      createdAt
+      tanks {
+        username
+        charLvl
+        primaryWep
+        primaryWepLvl
+        secondaryWep
+        secondaryWepLvl
+      }
+      mdps {
+        username
+        charLvl
+        primaryWep
+        primaryWepLvl
+        secondaryWep
+        secondaryWepLvl
+      }
+      prdps {
+        username
+        charLvl
+        primaryWep
+        primaryWepLvl
+        secondaryWep
+        secondaryWepLvl
+      }
+      erdps {
+        username
+        charLvl
+        primaryWep
+        primaryWepLvl
+        secondaryWep
+        secondaryWepLvl        
+      }
+      healers {
+        username
+        charLvl
+        primaryWep
+        primaryWepLvl
+        secondaryWep
+        secondaryWepLvl 
+      }
+      artillery {
+        username
+        charLvl
+        primaryWep
+        primaryWepLvl
+        secondaryWep
+        secondaryWepLvl      
+      }
     }
   }
 `;
