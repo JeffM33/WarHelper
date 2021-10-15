@@ -64,6 +64,24 @@ const SingleWar = () => {
   const [form] = Form.useForm();
   const [role, setRole] = useState('') ; 
 
+  const wepLvls = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20'];
+  const charLvls = []
+  for(let i=1; i<61; i++) {
+    charLvls.push(i);
+  }
+  const weps = [{name: 'Sword and Shield', abr: 'SS'}, 
+                {name: 'Rapier', abr: 'RA'}, 
+                {name: 'Hatchet', abr: 'HA'}, 
+                {name: 'Spear', abr: 'SP'},
+                {name: 'Great Axe', abr: 'GA'}, 
+                {name: 'War Hammer', abr: 'WH'}, 
+                {name: 'Bow', abr: 'BO'}, 
+                {name: 'Musket', abr: 'MU'}, 
+                {name: 'Fire Staff', abr: 'FS'}, 
+                {name: 'Life Staff', abr: 'LS'}, 
+                {name: 'Ice Gauntlet', abr: 'IG'}
+              ];
+
   const showModal = (e) => {
     setVisible(true);
     setModalText('');
@@ -72,6 +90,7 @@ const SingleWar = () => {
 
   const handleCancel = () => {
     console.log('Clicked cancel button');
+    form.resetFields();
     setVisible(false);
   };
 
@@ -79,11 +98,11 @@ const SingleWar = () => {
     console.log('Success!', values, 'role:', role);
     setModalText('Thank you for registering!');
     setConfirmLoading(true);
-    form.resetFields();
     setTimeout(() => {
       setVisible(false);
       setConfirmLoading(false);
     }, 2000);
+    form.resetFields();
   }
 
   return (
@@ -91,7 +110,7 @@ const SingleWar = () => {
       <h1 style={{textAlign: 'center', color: purple[3]}}> Windsward Invasion </h1>
 
       <Modal
-        title='Please select your primary and secondary weapons.'
+        title=''
         visible={visible}
         confirmLoading={confirmLoading}
         onCancel={handleCancel}
@@ -99,17 +118,51 @@ const SingleWar = () => {
       >
         <p>{modalText}</p>
         <Form layout='vertical' form={form} onFinish={onFinish}>
-          <Form.Item name="Primary-weapon" label="Primary-weapon" rules={[{ required: true, message: 'Please select a weapon!'}]}>
-            <Select style={{ width: '50%', margin: '5px' }} placeholder="Primary Weapon" allowClear>
-              <Option value="Option1-1">Option1-1</Option>
-              <Option value="Option1-2">Option1-2</Option>
+        <Form.Item name="character-level" label="Character Level" rules={[{ required: true, message: 'Please select your level!'}]}>
+            <Select style={{ width: '50%', margin: '5px' }} placeholder="Character Level" allowClear>
+              {charLvls.map((lvl) => {
+                return (
+                  <Option value={lvl}>{lvl}</Option>
+                );
+              })}
             </Select>
           </Form.Item>
-          <Form.Item name="Secondary-weapon" label="Secondary-weapon" rules={[{ required: true, message: 'Please select a weapon!'}]}>            
+          <Form.Item name="primary-weapon" label="Primary Weapon" rules={[{ required: true, message: 'Please select a weapon!'}]}>
+            <Select style={{ width: '50%', margin: '5px' }} placeholder="Primary Weapon" allowClear>
+              {weps.map((wep) => {
+                return (
+                  <Option value={wep.abr}>{wep.name}</Option>
+                );
+              })}
+            </Select>
+          </Form.Item>
+          <Form.Item name="primary-weapon-level" label="Primary Weapon Level" rules={[{ required: true, message: 'Please select a weapon level!'}]}>
+            <Select style={{ width: '50%', margin: '5px' }} placeholder="Lvl" allowClear>
+              {wepLvls.map((lvl) => {
+                return (
+                  <Option value={lvl}>{lvl}</Option>
+                );
+              })}
+            </Select>
+          </Form.Item>
+
+          <Form.Item name="secondary-weapon" label="Secondary Weapon" rules={[{ required: true, message: 'Please select a weapon!'}]}>            
             <Select style={{ width: '50%', margin: '5px' }} placeholder="Secondary Weapon" allowClear>
-              <Option value="Option2-1">Option2-1</Option>
-              <Option value="Option2-2">Option2-2</Option>
+              {weps.map((wep) => {
+                return (
+                  <Option value={wep.abr}>{wep.name}</Option>
+                );
+              })}
             </Select>            
+          </Form.Item>
+          <Form.Item name="secondary-weapon-level" label="Secondary Weapon Level" rules={[{ required: true, message: 'Please select a weapon level!'}]}>
+            <Select style={{ width: '50%', margin: '5px' }} placeholder="Lvl" allowClear>
+              {wepLvls.map((lvl) => {
+                return (
+                  <Option value={lvl}>{lvl}</Option>
+                );
+              })}
+            </Select>
           </Form.Item>
           <Form.Item>
             <Button key="submit" style={{backgroundColor: purple[3], borderColor: purple[3]}} type="primary" loading={confirmLoading} htmlType="submit">Submit</Button>
@@ -121,7 +174,7 @@ const SingleWar = () => {
         
         <Col className="gutter-row" span={8} style={{padding: '8px 0'}}>
           <Card title="Tanks" headStyle={{ fontSize: '27px' }} extra={<Tooltip title="Register for this war as a Tank" color = {purple[3]}>
-            <Button onClick={showModal} color={purple[3]} type="primary" style={{backgroundColor: purple[3], borderColor: purple[3]}} size='small'><span data-role='tank'>Register Now!</span></Button>
+            <Button onClick={showModal} color={purple[3]} type="primary" style={{backgroundColor: purple[3], borderColor: purple[3]}} size='small'><span data-role='tanks'>Register Now!</span></Button>
             </Tooltip>} style={{ width: 350 }}>
             <pre style={{fontSize: '12px'}}>Player 1:  Level 60   SS-20 | GA-18</pre>
             <pre style={{fontSize: '12px'}}>Player 2:  Level 60   SS-20 | GA-18</pre>
@@ -135,7 +188,7 @@ const SingleWar = () => {
         </Col>
         <Col className="gutter-row" span={8} style={{padding: '8px 0'}}>
           <Card title="Melee DPS" headStyle={{ fontSize: '27px' }} extra={<Tooltip title="Register for this war as a Melee DPS" color = {purple[3]}>
-            <Button onClick={showModal} type="primary" style={{backgroundColor: purple[3], borderColor: purple[3]}} size='small'><span data-role='mDPS'>Register Now!</span></Button>
+            <Button onClick={showModal} type="primary" style={{backgroundColor: purple[3], borderColor: purple[3]}} size='small'><span data-role='mdps'>Register Now!</span></Button>
             </Tooltip>} style={{ width: 350 }}>
             <pre style={{fontSize: '12px'}}>Player 1:  Level 60   SS-20 | GA-18</pre>
             <pre style={{fontSize: '12px'}}>Player 2:  Level 60   SS-20 | GA-18</pre>
@@ -149,7 +202,7 @@ const SingleWar = () => {
         </Col>
         <Col className="gutter-row" span={8} style={{padding: '8px 0'}}>
           <Card title="Physical DPS" headStyle={{ fontSize: '27px' }} extra={<Tooltip title="Register for this war as a Physical DPS" color = {purple[3]}>
-            <Button onClick={showModal} type="primary" style={{backgroundColor: purple[3], borderColor: purple[3]}} size='small'><span data-role='pDPS'>Register Now!</span></Button>
+            <Button onClick={showModal} type="primary" style={{backgroundColor: purple[3], borderColor: purple[3]}} size='small'><span data-role='prdps'>Register Now!</span></Button>
             </Tooltip>} style={{ width: 350 }}>
             <pre style={{fontSize: '12px'}}>Player 1:  Level 60   SS-20 | GA-18</pre>
             <pre style={{fontSize: '12px'}}>Player 2:  Level 60   SS-20 | GA-18</pre>
@@ -165,7 +218,7 @@ const SingleWar = () => {
       <Row>
         <Col className="gutter-row" span={8} style={{padding: '8px 0'}}>
           <Card title="Elemental DPS" headStyle={{ fontSize: '27px' }} extra={<Tooltip title="Register for this war as an Elemental DPS" color = {purple[3]}>
-            <Button onClick={showModal} type="primary" style={{backgroundColor: purple[3], borderColor: purple[3]}} size='small'><span data-role='eDPS'>Register Now!</span></Button>
+            <Button onClick={showModal} type="primary" style={{backgroundColor: purple[3], borderColor: purple[3]}} size='small'><span data-role='erdps'>Register Now!</span></Button>
             </Tooltip>} style={{ width: 350 }}>
             <pre style={{fontSize: '12px'}}>Player 1:  Level 60   SS-20 | GA-18</pre>
             <pre style={{fontSize: '12px'}}>Player 2:  Level 60   SS-20 | GA-18</pre>
@@ -179,7 +232,7 @@ const SingleWar = () => {
         </Col>
         <Col className="gutter-row" span={8} style={{padding: '8px 0'}}>
           <Card title="Healer" headStyle={{ fontSize: '27px' }} extra={<Tooltip title="Register for this war as a Healer" color = {purple[3]}>
-            <Button onClick={showModal} type="primary" style={{backgroundColor: purple[3], borderColor: purple[3]}} size='small'><span data-role='healer'>Register Now!</span></Button>
+            <Button onClick={showModal} type="primary" style={{backgroundColor: purple[3], borderColor: purple[3]}} size='small'><span data-role='healers'>Register Now!</span></Button>
             </Tooltip>} style={{ width: 350 }}>
             <pre style={{fontSize: '12px'}}>Player 1:  Level 60   SS-20 | GA-18</pre>
             <pre style={{fontSize: '12px'}}>Player 2:  Level 60   SS-20 | GA-18</pre>
