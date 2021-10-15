@@ -1,52 +1,43 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { purple, red, gold } from '@ant-design/colors';
+import wanted from './wantedpaper.png'
 
 const WarList = ({
   wars,
   title,
-  showTitle = true,
-  showUsername = true,
+  showTitle = true
 }) => {
   if (!wars.length) {
-    return <h3>No Wars Yet</h3>;
+    return <h3 style={{ color: purple[3] }}>No Wars Yet</h3>;
   }
 
   return (
     <div>
-      {showTitle && <h3>{title}</h3>}
+      {showTitle && <h3 style={{ color: purple[3] }}>{title}</h3>}
+      <div style={{display: 'flex', justifyContent: 'space-around'}}>
       {wars &&
         wars.map((war) => (
-          <div key={war._id} className="card mb-3">
-            <h4 className="card-header bg-primary text-light p-2 m-0">
-              {showUsername ? (
-                <Link
-                  className="text-light"
-                  to={`/profiles/${war.warAuthor}`}
-                >
-                  {war.warAuthor} <br />
-                  <span style={{ fontSize: '1rem' }}>
-                    is having this war on `${war.date} ${war.time}`
-                  </span>
+              <div style={{ 
+                backgroundImage: `url(${wanted})`,
+                backgroundSize: 'contain',
+                width: '300px',
+                height: '420px',
+                color: red[7],
+                fontSize: 28,
+                fontFamily: 'IM Fell DW Pica',
+                fontWeight: 600
+              }}>
+                <p style={{fontSize: 36, textDecoration: 'underline', marginTop: 30, fontWeight: 'bolder'}}>{war.city}</p>
+                - {war.warAuthor} - <br />
+                  is having this war on <br />
+                {war.date} @ {war.time} <br />
+                <Link title={war.city} to={`/wars/${war._id}`}>
+                  <button style={{color: red[7], fontSize: 20, borderRadius: 6, backgroundColor: gold[2]}}>Join</button>
                 </Link>
-              ) : (
-                <>
-                  <span style={{ fontSize: '1rem' }}>
-                    You had this war on {war.createdAt}
-                  </span>
-                </>
-              )}
-            </h4>
-            <div className="card-body bg-light p-2">
-              <p>{war.city}</p>
-            </div>
-            <Link
-              className="btn btn-primary btn-block btn-squared"
-              to={`/wars/${war._id}`}
-            >
-              Join the discussion on this war.
-            </Link>
-          </div>
+              </div>
         ))}
+        </div>
     </div>
   );
 };

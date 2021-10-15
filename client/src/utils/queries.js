@@ -61,3 +61,18 @@ export const QUERY_ME = gql`
     }
   }
 `;
+
+export const QUERY_DISCORD_USER = gql`
+  query discordUser {
+    discord {
+      _id
+      name 
+      role
+      level
+      mainhand
+      mainLvl
+      secondary
+      secondaryLvl
+    }
+  }
+`;
