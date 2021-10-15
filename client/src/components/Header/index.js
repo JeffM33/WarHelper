@@ -21,12 +21,13 @@ const Header = () => {
          {Auth.loggedIn() ? (
            <>
            <Space>
-             <Link to="/me">
-             <Button style={{backgroundColor: purple[3], color: 'white'}}>{Auth.getProfile().data.username}'s profile</Button>
-             </Link>
-             <Button onClick={logout}>
-             <Button style={{backgroundColor: purple[3], color: 'white'}}>Logout</Button>
-             </Button>
+              <Link to="/me">
+              <Button style={{backgroundColor: purple[3], color: 'white'}}>{Auth.getProfile().data.username}'s Profile</Button>
+              </Link>
+              <Link to="/createwar">
+              <Button style={{backgroundColor: purple[3], color: 'white'}}>Create War</Button>
+              </Link>
+              <Button onClick={logout} style={{backgroundColor: purple[3], color: 'white'}}>Logout</Button>
             </Space>
            </>
          ) : (
