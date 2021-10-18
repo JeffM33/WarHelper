@@ -1,7 +1,7 @@
 import React,{ useState } from 'react';
 
 import { Row, Col, Card, Tooltip, Button, Modal, Select, Form, notification }  from 'antd';
-import { purple, red } from '@ant-design/colors';
+import { purple, red, grey } from '@ant-design/colors';
 
 import { useParams, Redirect } from 'react-router-dom';
 import { useQuery, useMutation } from '@apollo/client';
@@ -209,9 +209,9 @@ const SingleWar = () => {
         <Row justify="space-around">
           
           <Col className="gutter-row" xs={24} md={8} style={{ padding: '8px 0' }}>
-            <Card title="Tanks" headStyle={{ fontSize: '20px' }} extra={<Tooltip title="Register for this war as a Tank" color = {purple[3]}>
+            <Card title="Tanks 🛡" headStyle={{ fontSize: '20px', backgroundColor: grey[7], color: 'white' }} bodyStyle={{ backgroundColor: grey[6], color: 'white'}} extra={<Tooltip title="Register for this war as a Tank" color = {purple[3]}>
               <Button onClick={showModal} color={purple[3]} type="primary" style={{backgroundColor: purple[3], borderColor: purple[3], display: display}} size='small'><span data-role='tanks'>Register Now!</span></Button>
-              </Tooltip>} style={{ maxWidth: 350, border: 0 }}>
+              </Tooltip>} style={{ maxWidth: 350}}>
               {tanks.map((user) => {
                 return (
                   <pre style={{fontSize: '12px', whiteSpace: 'pre-wrap'}}>{user.username}:  Level {user.charLvl}   {user.primaryWep}-{user.primaryWepLvl} | {user.secondaryWep}-{user.secondaryWepLvl}</pre>
@@ -220,7 +220,7 @@ const SingleWar = () => {
             </Card>
           </Col>
           <Col className="gutter-row" xs={24} md={8} style={{padding: '8px 0'}}>
-            <Card title="Melee DPS" headStyle={{ fontSize: '20px' }} extra={<Tooltip title="Register for this war as a Melee DPS" color = {purple[3]}>
+            <Card title="Melee DPS 🗡" headStyle={{ fontSize: '20px', backgroundColor: grey[7], color: 'white' }} bodyStyle={{ backgroundColor: grey[6], color: 'white'}} extra={<Tooltip title="Register for this war as a Melee DPS" color = {purple[3]}>
               <Button onClick={showModal} type="primary" style={{backgroundColor: purple[3], borderColor: purple[3], display: display}} size='small'><span data-role='mdps'>Register Now!</span></Button>
               </Tooltip>} style={{ maxWidth: 350 }}>
               {mdps.map((user) => {
@@ -231,7 +231,7 @@ const SingleWar = () => {
             </Card>
           </Col>
           <Col className="gutter-row" xs={24} md={8} style={{padding: '8px 0'}}>
-            <Card title="Physical DPS" headStyle={{ fontSize: '20px' }} extra={<Tooltip title="Register for this war as a Physical DPS" color = {purple[3]}>
+            <Card title="Physical DPS 🏹" headStyle={{ fontSize: '20px', backgroundColor: grey[7], color: 'white' }} bodyStyle={{ backgroundColor: grey[6], color: 'white'}} extra={<Tooltip title="Register for this war as a Physical DPS" color = {purple[3]}>
               <Button onClick={showModal} type="primary" style={{backgroundColor: purple[3], borderColor: purple[3], display: display}} size='small'><span data-role='prdps'>Register Now!</span></Button>
               </Tooltip>} style={{ maxWidth: 350 }}>
               {prdps.map((user) => {
@@ -244,7 +244,7 @@ const SingleWar = () => {
         </Row>
         <Row>
           <Col className="gutter-row" xs={24} md={8} style={{padding: '8px 0'}}>
-            <Card title="Elemental DPS" headStyle={{ fontSize: '20px' }} extra={<Tooltip title="Register for this war as an Elemental DPS" color = {purple[3]}>
+            <Card title="Elemental DPS 🔥" headStyle={{ fontSize: '20px', backgroundColor: grey[7], color: 'white' }} bodyStyle={{ backgroundColor: grey[6], color: 'white'}} extra={<Tooltip title="Register for this war as an Elemental DPS" color = {purple[3]}>
               <Button onClick={showModal} type="primary" style={{backgroundColor: purple[3], borderColor: purple[3], display: display}} size='small'><span data-role='erdps'>Register Now!</span></Button>
               </Tooltip>} style={{ maxWidth: 350 }}>
               {erdps.map((user) => {
@@ -255,7 +255,7 @@ const SingleWar = () => {
             </Card>
           </Col>
           <Col className="gutter-row" xs={24} md={8} style={{padding: '8px 0'}}>
-            <Card title="Healer" headStyle={{ fontSize: '20px' }} extra={<Tooltip title="Register for this war as a Healer" color = {purple[3]}>
+            <Card title="Healer 💝" headStyle={{ fontSize: '20px', backgroundColor: grey[7], color: 'white' }} bodyStyle={{ backgroundColor: grey[6], color: 'white'}} extra={<Tooltip title="Register for this war as a Healer" color = {purple[3]}>
               <Button onClick={showModal} type="primary" style={{backgroundColor: purple[3], borderColor: purple[3], display: display}} size='small'><span data-role='healers'>Register Now!</span></Button>
               </Tooltip>} style={{ maxWidth: 350 }}>
               {healers.map((user) => {
@@ -266,7 +266,7 @@ const SingleWar = () => {
             </Card>
           </Col>
           <Col className="gutter-row" xs={24} md={8} style={{padding: '8px 0'}}>
-            <Card title="Artillery" headStyle={{ fontSize: '20px' }} extra={<Tooltip title="Register for this war as Artillery" color = {purple[3]}>
+            <Card title="Artillery 💥" headStyle={{ fontSize: '20px', backgroundColor: grey[7], color: 'white' }} bodyStyle={{ backgroundColor: grey[6], color: 'white'}} extra={<Tooltip title="Register for this war as Artillery" color = {purple[3]}>
               <Button onClick={showModal} type="primary" style={{backgroundColor: purple[3], borderColor: purple[3], display: display}} size='small'><span data-role='artillery'>Register Now!</span></Button>
               </Tooltip>} style={{ maxWidth: 350 }}>
               {artillery.map((user) => {

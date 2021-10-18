@@ -22,18 +22,18 @@ const Header = () => {
            <>
            <Space>
               <Link to="/me">
-              <Button style={{backgroundColor: purple[3], color: 'white'}}>Wars</Button>
+              <Button style={{backgroundColor: purple[3], color: 'white', borderColor: purple[3]}}>Wars</Button>
               </Link>
               <Link to="/createwar">
-              <Button style={{backgroundColor: purple[3], color: 'white'}}>Create War</Button>
+              <Button style={{backgroundColor: purple[3], color: 'white', borderColor: purple[3]}}>Create War</Button>
               </Link>
-              <Button onClick={logout} style={{backgroundColor: purple[3], color: 'white'}}>Logout</Button>
+              <Button onClick={logout} style={{backgroundColor: purple[3], color: 'white', borderColor: purple[3]}}>Logout</Button>
             </Space>
            </>
          ) : (
            <>
            <Space>
-              <Button style={{backgroundColor: purple[3], color: 'white'}}>
+              <Button style={{backgroundColor: purple[3], color: 'white', borderColor: purple[3]}}>
               <Link to="/loginSignup">Login/Signup</Link>
               </Button>
             </Space>
