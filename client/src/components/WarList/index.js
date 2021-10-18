@@ -7,7 +7,7 @@ const WarList = ({
   wars,
   title,
   showTitle = true
-}) => {
+  }) => {
   if (!wars.length) {
     return <h3 style={{ color: purple[3] }}>No Wars Yet</h3>;
   }
@@ -15,7 +15,7 @@ const WarList = ({
   return (
     <div>
       {showTitle && <h3 style={{ color: purple[3] }}>{title}</h3>}
-      <div style={{display: 'flex', justifyContent: 'space-around'}}>
+      <div style={{display: 'flex', justifyContent: 'space-around', flexWrap: 'wrap'}}>
       {wars &&
         wars.map((war) => (
               <div style={{ 
@@ -28,7 +28,7 @@ const WarList = ({
                 fontFamily: 'IM Fell DW Pica',
                 fontWeight: 600
               }}>
-                <p style={{fontSize: 36, textDecoration: 'underline', marginTop: 30, fontWeight: 'bolder'}}>{war.city}</p>
+                <p style={{fontSize: 32, textDecoration: 'underline', marginTop: 30, fontWeight: 'bolder'}}>{war.city}</p>
                 - {war.warAuthor} - <br />
                   is having this war on <br />
                 {war.date} @ {war.time} <br />

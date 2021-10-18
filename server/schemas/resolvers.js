@@ -50,7 +50,7 @@ const resolvers = {
     },
     addWar: async (parent, { city, date, time }, context) => {
       if (context.user) {
-        const war = await war.create({
+        const war = await War.create({
           city,
           date,
           time,

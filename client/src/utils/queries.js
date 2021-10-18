@@ -101,7 +101,6 @@ export const QUERY_ME = gql`
         date
         time
         warAuthor
-        createdAt
       }
     }
   }
