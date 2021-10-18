@@ -183,10 +183,10 @@ const SingleWar = () => {
 
       <Row justify="space-between">
         
-        <Col className="gutter-row" xs={24} md={8} style={{padding: '8px 0'}}>
+        <Col className="gutter-row" xs={24} md={8} style={{ padding: '8px 0' }}>
           <Card title="Tanks" headStyle={{ fontSize: '27px' }} extra={<Tooltip title="Register for this war as a Tank" color = {purple[3]}>
             <Button onClick={showModal} color={purple[3]} type="primary" style={{backgroundColor: purple[3], borderColor: purple[3], display: display}} size='small'><span data-role='tanks'>Register Now!</span></Button>
-            </Tooltip>} style={{ width: 350 }}>
+            </Tooltip>} style={{ width: 350, border: 0 }}>
             {tanks.map((user) => {
               return (
                 <pre style={{fontSize: '12px'}}>{user.username}:  Level {user.charLvl}   {user.primaryWep}-{user.primaryWepLvl} | {user.secondaryWep}-{user.secondaryWepLvl}</pre>
