@@ -15,6 +15,7 @@ import Profile from './pages/Profile';
 import CreateWar from './pages/CreateWar'
 import Header from './components/Header';
 import Footer from './components/Footer';
+import { purple } from '@ant-design/colors'
 import 'antd/dist/antd.css';
 
 // Construct our main GraphQL API endpoint
