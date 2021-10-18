@@ -12,7 +12,8 @@ const Footer = () => {
         {location.pathname !== '/' && (
           <Button
             onClick={() => history.goBack()}
-            style={{backgroundColor: purple[3], color: 'white', marginTop: '10rem'}}
+            style={{backgroundColor: purple[3], borderColor: purple[3],marginTop: '10rem'}}
+            type="primary"
           >
             &larr; Go Back
           </Button>
