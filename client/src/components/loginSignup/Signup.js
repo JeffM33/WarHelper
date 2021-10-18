@@ -30,6 +30,7 @@ const Signup = () => {
 
   return (
 
+
       <Card title="Sign Up"  style={{ width: 800, marginTop: '50px' }}>
         <Form
           name="signup"
@@ -128,6 +129,124 @@ const Signup = () => {
         </Form>
       </Card>
   )
+
+    <main>
+      <div>
+        <div>
+          <h4>Sign Up</h4>
+          <div className="card-body">
+            {data ? (
+              <p>
+                Success! You may now head{' '}
+                <Link to="/">back to the homepage.</Link>
+              </p>
+            ) : (
+              // User Name
+              <form onSubmit={handleFormSubmit}>
+                <input
+                  className="form-input"
+                  placeholder="Your username"
+                  name="username"
+                  type="text"
+                  value={formState.name}
+                  onChange={handleChange}
+                />
+                {/* Email address */}
+                <input
+                  className="form-input"
+                  placeholder="Your email"
+                  name="email"
+                  type="email"
+                  value={formState.email}
+                  onChange={handleChange}
+                />
+                {/* Character level */}
+                <input
+                  className="form-input"
+                  placeholder="Your Character Level"
+                  name="level"
+                  type="text"
+                  value={formState.level}
+                  onChange={handleChange}
+                />
+                {/* Character Main hand weapon */}
+                {/* Needs drop down */}
+                <input
+                  className="form-input"
+                  placeholder="Your Main hand"
+                  name="main"
+                  type="text"
+                  value={formState.main}
+                  onChange={handleChange}
+                />
+                {/* Character Main hand weapon level */}
+                <input
+                  className="form-input"
+                  placeholder="Your Main Hand level"
+                  name="mainLvl"
+                  type="text"
+                  value={formState.mainLvl}
+                  onChange={handleChange}
+                />
+                {/* Character secondary weapon */}
+                {/* Needs drop down */}
+                <input
+                  className="form-input"
+                  placeholder="Your secondary weapon"
+                  name="secondary"
+                  type="text"
+                  value={formState.secondary}
+                  onChange={handleChange}
+                />
+                {/* Character secondary weapon level */}
+                <input
+                  className="form-input"
+                  placeholder="Your secondary weapon level"
+                  name="secondaryLvl"
+                  type="text"
+                  value={formState.email}
+                  onChange={handleChange}
+                />
+                {/* Users Discord id */}
+                <input
+                  className="form-input"
+                  placeholder="Your discord id"
+                  name="discord"
+                  type="text"
+                  value={formState.discord}
+                  onChange={handleChange}
+                />
+                {/* password */}
+                <input
+                  className="form-input"
+                  placeholder="******"
+                  name="password"
+                  type="password"
+                  value={formState.password}
+                  onChange={handleChange}
+                />
+                {/* Submit */}
+                <button
+                  className="btn btn-block btn-primary"
+                  style={{ cursor: 'pointer' }}
+                  type="submit"
+                >
+                  Submit
+                </button>
+              </form>
+            )}
+
+            {error && (
+              <div className="my-3 p-3 bg-danger text-white">
+                {error.message}
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
+    </main>
+  );
+
 };
 
 export default Signup;

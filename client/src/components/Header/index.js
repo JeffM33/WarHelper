@@ -22,7 +22,7 @@ const Header = () => {
            <>
            <Space>
               <Link to="/me">
-              <Button style={{backgroundColor: purple[3], color: 'white'}}>{Auth.getProfile().data.username}'s Profile</Button>
+              <Button style={{backgroundColor: purple[3], color: 'white'}}>Wars</Button>
               </Link>
               <Link to="/createwar">
               <Button style={{backgroundColor: purple[3], color: 'white'}}>Create War</Button>
@@ -34,10 +34,7 @@ const Header = () => {
            <>
            <Space>
               <Button style={{backgroundColor: purple[3], color: 'white'}}>
-              <Link to="/loginSignup">Login</Link>
-              </Button>
-              <Button style={{backgroundColor: purple[3], color: 'white'}}>
-              <Link to="/loginSignup">Signup</Link>
+              <Link to="/loginSignup">Login/Signup</Link>
               </Button>
             </Space>
            </>

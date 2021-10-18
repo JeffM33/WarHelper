@@ -1,8 +1,10 @@
 import React from 'react';
 import { useMutation } from '@apollo/client';
 import { LOGIN_USER } from '../../utils/mutations';
+
 import { purple } from '@ant-design/colors';
 import { Button, Form, Input, Card } from 'antd';
+
 
 import Auth from '../../utils/auth';
 
@@ -30,6 +32,7 @@ const Login = (props) => {
   };
 
   return (
+
     <Card title="Login"  style={{ width: 800 }}>
       <Form
         name="login"
@@ -64,6 +67,52 @@ const Login = (props) => {
         </Form.Item>
       </Form>
     </Card>
+
+    <main>
+      <div>
+        <div>
+          <h4 style={{backgroundColor: grey[7]}}>Login</h4>
+          <div>
+            {data ? (
+              <p>
+                Success! You may now head{' '}
+                <Link to="/">back to the warpage.</Link>
+              </p>
+            ) : (
+              <form onSubmit={handleFormSubmit}>
+                <input
+                  placeholder="Your email"
+                  name="email"
+                  type="email"
+                  value={formState.email}
+                  onChange={handleChange}
+                />
+                <input
+                  placeholder="******"
+                  name="password"
+                  type="password"
+                  value={formState.password}
+                  onChange={handleChange}
+                />
+                <button
+                  style={{ cursor: 'pointer', color: purple[3]}}
+                  type="submit"
+                >
+                  Submit
+                </button>
+              </form>
+            )}
+
+            {error && (
+              <div>
+                {error.message}
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
+    </main>
+
   );
 }
 
