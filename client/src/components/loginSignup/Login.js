@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 import { useMutation } from '@apollo/client';
 import { LOGIN_USER } from '../../utils/mutations';
 import { purple, grey } from '@ant-design/colors';
-import { Button, Space } from 'antd';
 
 import Auth from '../../utils/auth';
 
@@ -43,11 +42,11 @@ const Login = (props) => {
   };
 
   return (
-    <main className="flex-row justify-center mb-4">
-      <div className="col-12 col-lg-10">
-        <div className="card">
-          <h4 style={{backgroundColor: grey[7]}} className="card-header bg-dark text-light p-2">Login</h4>
-          <div className="card-body">
+    <main>
+      <div>
+        <div>
+          <h4 style={{backgroundColor: grey[7]}}>Login</h4>
+          <div>
             {data ? (
               <p>
                 Success! You may now head{' '}
@@ -56,7 +55,6 @@ const Login = (props) => {
             ) : (
               <form onSubmit={handleFormSubmit}>
                 <input
-                  className="form-input"
                   placeholder="Your email"
                   name="email"
                   type="email"
@@ -64,7 +62,6 @@ const Login = (props) => {
                   onChange={handleChange}
                 />
                 <input
-                  className="form-input"
                   placeholder="******"
                   name="password"
                   type="password"
@@ -72,7 +69,6 @@ const Login = (props) => {
                   onChange={handleChange}
                 />
                 <button
-                  className="btn btn-block btn-primary"
                   style={{ cursor: 'pointer', color: purple[3]}}
                   type="submit"
                 >
@@ -82,7 +78,7 @@ const Login = (props) => {
             )}
 
             {error && (
-              <div className="my-3 p-3 bg-danger text-white">
+              <div>
                 {error.message}
               </div>
             )}

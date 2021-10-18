@@ -11,7 +11,7 @@ const Home = () => {
 
   return (
     <main>
-      <div style={{textAlign: 'center'}}>
+      <div style={{textAlign: 'center', fontSize: 32}}>
         <div>
           {loading ? (
             <div>Loading...</div>

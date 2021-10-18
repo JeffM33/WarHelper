@@ -134,7 +134,7 @@ const WarForm = () => {
         </Space>
         </>
       ) : (
-        <p>
+        <p style={{color: purple[3]}}>
           You need to be logged in to share your wars. Please{' '}
           <Link to="/login">login</Link> or <Link to="/signup">signup.</Link>
         </p>
