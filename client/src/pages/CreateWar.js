@@ -25,7 +25,7 @@ const CreateWar = () => {
   
   return (
     <div>
-      <div style={{ border: '1px dotted #1a1a1a' }}>
+      <div style={{ border: '1px dotted #1a1a1a', alignContent: 'center', justifyContent: 'center', display: 'flex'}}>
         <WarForm />
       </div>
     </div>

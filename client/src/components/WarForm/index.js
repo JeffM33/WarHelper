@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useMutation } from '@apollo/client';
+import moment from 'moment';
 
 import { ADD_WAR } from '../../utils/mutations';
 import { QUERY_WARS, QUERY_ME } from '../../utils/queries';
-import { purple } from '@ant-design/colors';
+import { purple, red, grey } from '@ant-design/colors';
 import { Select, DatePicker, TimePicker, Space } from 'antd';
 
 import Auth from '../../utils/auth';
@@ -22,6 +23,10 @@ const WarForm = () => {
   const [date, setDate] = useState('');
   
   const [time, setTime] = useState('');
+  
+  const dateFormat = 'dddd, MMMM Do';
+
+  const timeFormat = 'h:mm A';
 
   const [ addWar, { error }] = useMutation(ADD_WAR, {
     update(cache, { data: { addWar } }) {
@@ -48,11 +53,12 @@ const WarForm = () => {
   const handleFormSubmit = async (event) => {
     event.preventDefault();
     try {
+
       const { data } = await addWar({
         variables: {
           city,
-          date,
-          time,
+          date: moment(date).format(dateFormat),
+          time: moment(time).format(timeFormat),
           warAuthor: Auth.getProfile().data.username,
         },
       });
@@ -76,20 +82,20 @@ const WarForm = () => {
   }
 
   return (
-    <div style={{ color: purple[3] }}>
-      <h3 style={{ color: purple[3] }}>War Creation</h3>
-
+    <div style={{ color: purple[3], fontSize: 20 }}>
       {Auth.loggedIn() ? (
         <>
         <Space direction='vertical' size='large'>
+          <div style={{textAlign: 'center', fontSize: 32}}>War Details</div>
+          <div style={{textAlign: 'center'}}>Select city:</div>
           <Select
             showSearch
-            style={{ width: 200 }}
+            style={{ width: 250 }}
             placeholder="Select a city"
             optionFilterProp="children"
             onSearch={onSearch}
-            value={city}
             name="city"
+            value={city}
             onChange={cityChange}
             filterOption={(input, option) => option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
           >
@@ -109,15 +115,18 @@ const WarForm = () => {
             <Option value='Windsward'>Windsward</Option>
           </Select>
 
-          <DatePicker name="date" onChange={dateChange} value={date} format='MM-DD-YYYY' style={{ width: 200 }}/>
+          <div style={{textAlign: 'center'}}>Select date:</div>
+          <DatePicker name="date" value={date} onChange={dateChange} format={dateFormat} style={{ width: 250 }}/>
 
-          <TimePicker name="time" value={time} onChange={timeChange} use12Hours format='h:mm a' minuteStep={30} style={{ width: 200 }}/>
+          <div style={{textAlign: 'center'}}>Select time(EST):</div>
+          <TimePicker name="time" value={time} onChange={timeChange} use12Hours format={timeFormat} minuteStep={30} style={{ width: 250 }}/>
+
           <form onSubmit={handleFormSubmit}>
-            <button className="btn btn-primary btn-block py-3" type="submit" >
-              Add War
+            <button type="submit" style={{color: purple[3], backgroundColor: grey[7], width: 250, height: 50, marginTop: 30, marginBottom: 30, borderRadius: 12, fontWeight: 'bold', cursor: 'pointer'}}>
+            +Add War
             </button>
             {error && (
-              <div className="col-12 my-3 bg-danger text-white p-3">
+              <div style={{width: 250, backgroundColor: red[3], color: 'white', borderRadius: 2, padding: 6}}>
                 {error.message}
               </div>
             )}
