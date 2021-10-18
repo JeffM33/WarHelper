@@ -36,22 +36,6 @@ export const ADD_WAR = gql`
   }
 `;
 
-export const ADD_COMMENT = gql`
-  mutation addComment($thoughtId: ID!, $commentText: String!) {
-    addComment(thoughtId: $thoughtId, commentText: $commentText) {
-      _id
-      thoughtText
-      thoughtAuthor
-      createdAt
-      comments {
-        _id
-        commentText
-        createdAt
-      }
-    }
-  }
-`;
-
 export const ADD_TO_WAR = gql`
   mutation addToWar($warId: ID!, $charLvl: String!, $primaryWep: String!, $primaryWepLvl: String!, $secondaryWep: String!, $secondaryWepLvl: String!, $role: String!) {
     addToWar(warId: $warId, charLvl: $charLvl, primaryWep: $primaryWep, primaryWepLvl: $primaryWepLvl, secondaryWep: $secondaryWep, secondaryWepLvl: $secondaryWepLvl, role: $role) {
