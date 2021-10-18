@@ -31,7 +31,7 @@ const Header = () => {
             </Space>
            </>
          ) : (
-           <>=
+           <>
            <Space>
               <Button style={{backgroundColor: purple[3], color: 'white'}}>
               <Link to="/loginSignup">Login/Signup</Link>

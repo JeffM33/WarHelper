@@ -36,6 +36,19 @@ export const ADD_WAR = gql`
   }
 `;
 
+export const REMOVE_WAR = gql`
+  mutation removeWar($warId: ID!) {
+    removeWar(warId: $warId) {
+      _id
+      _id
+      city
+      date
+      time
+      warAuthor
+    }
+  }
+`;
+
 export const ADD_TO_WAR = gql`
   mutation addToWar($warId: ID!, $charLvl: String!, $primaryWep: String!, $primaryWepLvl: String!, $secondaryWep: String!, $secondaryWepLvl: String!, $role: String!) {
     addToWar(warId: $warId, charLvl: $charLvl, primaryWep: $primaryWep, primaryWepLvl: $primaryWepLvl, secondaryWep: $secondaryWep, secondaryWepLvl: $secondaryWepLvl, role: $role) {
