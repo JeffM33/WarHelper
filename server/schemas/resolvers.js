@@ -50,7 +50,7 @@ const resolvers = {
     },
     addWar: async (parent, { city, date, time }, context) => {
       if (context.user) {
-        const war = await war.create({
+        const war = await War.create({
           city,
           date,
           time,
@@ -81,6 +81,53 @@ const resolvers = {
         return war;
       }
       throw new AuthenticationError('You need to be logged in!');
+    },
+
+    addToWar: async (parent, { warId, charLvl, primaryWep, primaryWepLvl, secondaryWep, secondaryWepLvl, role }, context) => {
+      if(context.user) {
+        const username = context.user.username;
+        const user = { username, charLvl, primaryWep, primaryWepLvl, secondaryWep, secondaryWepLvl }
+        switch (role) {
+          case 'tanks':
+            return War.findOneAndUpdate(
+              { _id: warId},
+              { $addToSet: { tanks: user }},
+              { new: true }
+            );
+          case 'mdps':
+            return War.findOneAndUpdate(
+              { _id: warId},
+              { $addToSet: { mdps: user }},
+              { new: true }
+            );
+          case 'prdps':
+            return War.findOneAndUpdate(
+              { _id: warId},
+              { $addToSet: { prdps: user }},
+              { new: true }
+            );
+          case 'erdps':
+            return War.findOneAndUpdate(
+              { _id: warId},
+              { $addToSet: { erdps: user }},
+              { new: true }
+            );
+          case 'healers':
+            return War.findOneAndUpdate(
+              { _id: warId},
+              { $addToSet: { healers: user }},
+              { new: true }
+            );
+          case 'artillery':
+            return War.findOneAndUpdate(
+              { _id: warId},
+              { $addToSet: { artillery: user }},
+              { new: true }
+            );
+          default: 
+            return;
+        }
+      }
     }
   },
 };

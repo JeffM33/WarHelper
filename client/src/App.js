@@ -8,14 +8,14 @@ import {
 import { setContext } from '@apollo/client/link/context';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 
-import 'antd/dist/antd.css';
-
 import Home from './pages/Home';
 import LoginSignup from './pages/loginSignup';
 import SingleWar from './pages/SingleWar';
 import Profile from './pages/Profile';
+import CreateWar from './pages/CreateWar'
 import Header from './components/Header';
 import Footer from './components/Footer';
+import { purple } from '@ant-design/colors'
 import 'antd/dist/antd.css';
 
 // Construct our main GraphQL API endpoint
@@ -46,9 +46,9 @@ function App() {
   return (
     <ApolloProvider client={client}>
       <Router>
-        <div className="flex-column justify-flex-start min-100-vh">
+        <div>
           <Header />
-          <div className="container">
+          <div style={{marginLeft: 'auto', marginRight: 'auto', width: '85%', maxWidth: 1200 }}>
             <Route exact path="/">
               <Home />
             </Route>
@@ -63,6 +63,9 @@ function App() {
             </Route>
             <Route exact path="/wars/:warId">
               <SingleWar />
+            </Route>
+            <Route exact path="/createwar">
+              <CreateWar />
             </Route>
           </div>
           <Footer />

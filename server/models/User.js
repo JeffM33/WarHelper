@@ -1,4 +1,5 @@
 const { Schema, model } = require('mongoose');
+const WeaponClasses = require('./WeaponClasses');
 const bcrypt = require('bcrypt');
 
 const userSchema = new Schema({
@@ -25,18 +26,6 @@ const userSchema = new Schema({
   level: {
     type: String,
   },
-  main: {
-    type: String,
-  },
-  mainLvl: {
-    type: String,
-  },
-  secondary: {
-    type: String,
-  },
-  secondaryLvl: {
-    type: String,
-  },
   wins: {
     type: Number,
     default: 0,
@@ -45,6 +34,12 @@ const userSchema = new Schema({
     type: Number,
     default: 0,
   },
+  weapons: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: 'WeaponClasses'
+    }
+  ],
   wars: [
     {
       type: Schema.Types.ObjectId,

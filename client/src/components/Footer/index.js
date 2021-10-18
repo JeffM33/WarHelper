@@ -1,21 +1,24 @@
 import React from 'react';
 import { useLocation, useHistory } from 'react-router-dom';
+import { grey, purple } from '@ant-design/colors';
+import { Button } from 'antd'
 
 const Footer = () => {
   const location = useLocation();
   const history = useHistory();
   return (
-    <footer className="w-100 mt-auto bg-secondary p-4">
-      <div className="container text-center mb-5">
+    <footer style={{alignContent: 'center', justifyContent: 'center', textAlign: 'center'}}>
+      <div>
         {location.pathname !== '/' && (
-          <button
-            className="btn btn-dark mb-3"
+          <Button
             onClick={() => history.goBack()}
+            style={{backgroundColor: purple[3], borderColor: purple[3],marginTop: '10rem'}}
+            type="primary"
           >
             &larr; Go Back
-          </button>
+          </Button>
         )}
-        <h4>
+        <h4 style={{color: purple[3], textAlign: 'center', fontSize: 14, marginTop: '10rem'}}>
           Made by Bailey, Jeffrey, and Jonathan!
         </h4>
       </div>

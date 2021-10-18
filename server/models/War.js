@@ -21,19 +21,19 @@ const warSchema = new Schema({
     required: true,
     trim: true
   },
-  dps: {
+  tanks: {
     type: Array
   },
-  mDps: {
+  mdps: {
     type: Array
   },
-  physDps: {
+  prdps: {
     type: Array
   },
-  eleDps: {
+  erdps: {
     type: Array
   },
-  healer: {
+  healers: {
     type: Array
   },
   artillery: {

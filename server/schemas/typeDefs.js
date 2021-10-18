@@ -9,13 +9,28 @@ const typeDefs = gql`
     wars: [War]!
   }
 
-  type War {
+  type WarEntry {
     _id: ID
-    city: String
-    date: String
-    time: String
-    warAuthor: String
-    createdAt: String
+    username: String!
+    charLvl: String!
+    primaryWep: String!
+    primaryWepLvl: String!
+    secondaryWep: String!
+    secondaryWepLvl: String!
+  }
+
+  type War {
+    _id: ID!
+    city: String!
+    date: String!
+    time: String!
+    warAuthor: String!
+    tanks: [WarEntry]
+    mdps: [WarEntry]
+    prdps: [WarEntry]
+    erdps: [WarEntry]
+    healers: [WarEntry]
+    artillery: [WarEntry]
   }
 
   type Auth {
@@ -36,6 +51,7 @@ const typeDefs = gql`
     login(email: String!, password: String!): Auth
     addWar(city: String!, date: String!, time: String!): War
     removeWar(warId: ID!): War
+    addToWar(warId: ID!, charLvl: String!, primaryWep: String!, primaryWepLvl: String!, secondaryWep: String!, secondaryWepLvl: String!, role: String!): War
   }
 `;
 
