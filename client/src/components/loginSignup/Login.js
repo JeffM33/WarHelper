@@ -2,7 +2,7 @@ import React from 'react';
 import { useMutation } from '@apollo/client';
 import { LOGIN_USER } from '../../utils/mutations';
 
-import { purple } from '@ant-design/colors';
+import { purple, grey } from '@ant-design/colors';
 import { Button, Form, Input, Card } from 'antd';
 
 
@@ -33,10 +33,10 @@ const Login = (props) => {
 
   return (
 
-    <Card title="Login"  style={{ width: 800 }}>
+    <Card title="Login"  style={{ width: 800 }} headStyle={{ fontSize: '20px', backgroundColor: grey[7], color: 'white' }} bodyStyle={{ backgroundColor: grey[6], color: 'white'}} >
       <Form
         name="login"
-        labelCol={{ span: 6 }}
+        labelCol={{ span: 8 }}
         wrapperCol={{ span: 8 }}
         initialValues={{ remember: true }}
         onFinish={onFinish}
@@ -44,8 +44,7 @@ const Login = (props) => {
         autoComplete="off"
       >
         <Form.Item
-          label="Email"
-          style={{color: purple[3]}}
+          label={<label style={{ color: 'white'}}>Email</label>}
           name="email"
           rules={[{ required: true, message: 'Please input your email!' }]}        
         >
@@ -53,66 +52,20 @@ const Login = (props) => {
         </Form.Item>
 
         <Form.Item
-          label="Password"
+          label={<label style={{ color: 'white'}}>Password</label>}
           name="password"
           rules={[{ required: true, message: 'Please input your password!' }]}
         >
           <Input.Password placeholder="password" />
         </Form.Item>
 
-        <Form.Item wrapperCol={{ offset: 6, span: 16 }}>
+        <Form.Item wrapperCol={{ offset: 10, span: 16 }}>
           <Button type="primary" htmlType="submit" style={{backgroundColor: purple[3], color: 'white', borderColor: purple[3]}}>
             Submit
           </Button>
         </Form.Item>
       </Form>
     </Card>
-
-    <main>
-      <div>
-        <div>
-          <h4 style={{backgroundColor: grey[7]}}>Login</h4>
-          <div>
-            {data ? (
-              <p>
-                Success! You may now head{' '}
-                <Link to="/">back to the warpage.</Link>
-              </p>
-            ) : (
-              <form onSubmit={handleFormSubmit}>
-                <input
-                  placeholder="Your email"
-                  name="email"
-                  type="email"
-                  value={formState.email}
-                  onChange={handleChange}
-                />
-                <input
-                  placeholder="******"
-                  name="password"
-                  type="password"
-                  value={formState.password}
-                  onChange={handleChange}
-                />
-                <button
-                  style={{ cursor: 'pointer', color: purple[3]}}
-                  type="submit"
-                >
-                  Submit
-                </button>
-              </form>
-            )}
-
-            {error && (
-              <div>
-                {error.message}
-              </div>
-            )}
-          </div>
-        </div>
-      </div>
-    </main>
-
   );
 }
 
