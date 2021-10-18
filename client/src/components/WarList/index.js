@@ -24,17 +24,19 @@ const WarList = ({
                 width: '300px',
                 height: '420px',
                 color: red[7],
-                fontSize: 28,
+                fontSize: 24,
                 fontFamily: 'IM Fell DW Pica',
                 fontWeight: 600
               }}>
-                <p style={{fontSize: 32, textDecoration: 'underline', marginTop: 30, fontWeight: 'bolder'}}>{war.city}</p>
-                - {war.warAuthor} - <br />
-                  is having this war on <br />
-                {war.date} @ {war.time} <br />
+                <div style={{fontSize: 32, textDecoration: 'underline', marginTop: 65, fontWeight: 'bolder'}}>{war.city}</div>
+                <div style={{fontSize: 28, fontWeight: 600}}>on</div>
+                {war.date} <br />
+                @ {war.time} EST <br />
+                
                 <Link title={war.city} to={`/wars/${war._id}`}>
-                  <button style={{color: red[7], fontSize: 20, borderRadius: 6, backgroundColor: gold[2]}}>Join</button>
+                  <button style={{color: red[7], fontSize: 18, borderRadius: 6, backgroundColor: gold[2]}}>Join⚔️</button>
                 </Link>
+                <div style={{fontSize: 18, marginTop: 105}}>created by {war.warAuthor}</div>
               </div>
         ))}
         </div>

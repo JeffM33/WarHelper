@@ -1,7 +1,7 @@
 import React,{ useState } from 'react';
 
 import { Row, Col, Card, Tooltip, Button, Modal, Select, Form }  from 'antd';
-import { purple } from '@ant-design/colors';
+import { purple, red } from '@ant-design/colors';
 
 import { useParams } from 'react-router-dom';
 import { useQuery, useMutation } from '@apollo/client';
@@ -113,7 +113,12 @@ const SingleWar = () => {
 
   return (
     <div>
-      <h1 style={{textAlign: 'center', color: purple[3]}}>{war.city}</h1>
+      <div  style={{justifyContent: 'space-between', alignContent: 'center', display: 'flex'}}>
+        <div style={{color: purple[3], margin: 'auto', fontSize: 48, paddingBottom: 40}}>{war.city}</div>
+        <form style={{width: 100}}>
+          <button style={{height: 30, backgroundColor: red[4], color: 'white', borderRadius: 4 }}>Delete War</button>
+        </form>
+      </div>
 
       <Modal
         title=''
