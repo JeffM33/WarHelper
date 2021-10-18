@@ -214,7 +214,7 @@ const SingleWar = () => {
               </Tooltip>} style={{ maxWidth: 350, border: 0 }}>
               {tanks.map((user) => {
                 return (
-                  <pre style={{fontSize: '12px'}}>{user.username}:  Level {user.charLvl}   {user.primaryWep}-{user.primaryWepLvl} | {user.secondaryWep}-{user.secondaryWepLvl}</pre>
+                  <pre style={{fontSize: '12px', whiteSpace: 'pre-wrap'}}>{user.username}:  Level {user.charLvl}   {user.primaryWep}-{user.primaryWepLvl} | {user.secondaryWep}-{user.secondaryWepLvl}</pre>
                 )
               })}
             </Card>
@@ -225,7 +225,7 @@ const SingleWar = () => {
               </Tooltip>} style={{ maxWidth: 350 }}>
               {mdps.map((user) => {
                 return (
-                  <pre style={{fontSize: '12px'}}>{user.username}:  Level {user.charLvl}   {user.primaryWep}-{user.primaryWepLvl} | {user.secondaryWep}-{user.secondaryWepLvl}</pre>
+                  <pre style={{fontSize: '12px', whiteSpace: 'pre-wrap'}}>{user.username}:  Level {user.charLvl}   {user.primaryWep}-{user.primaryWepLvl} | {user.secondaryWep}-{user.secondaryWepLvl}</pre>
                 )
               })}
             </Card>
@@ -236,7 +236,7 @@ const SingleWar = () => {
               </Tooltip>} style={{ maxWidth: 350 }}>
               {prdps.map((user) => {
                 return (
-                  <pre style={{fontSize: '12px'}}>{user.username}:  Level {user.charLvl}   {user.primaryWep}-{user.primaryWepLvl} | {user.secondaryWep}-{user.secondaryWepLvl}</pre>
+                  <pre style={{fontSize: '12px', whiteSpace: 'pre-wrap'}}>{user.username}:  Level {user.charLvl}   {user.primaryWep}-{user.primaryWepLvl} | {user.secondaryWep}-{user.secondaryWepLvl}</pre>
                 )
               })}
             </Card>
@@ -249,7 +249,7 @@ const SingleWar = () => {
               </Tooltip>} style={{ maxWidth: 350 }}>
               {erdps.map((user) => {
                 return (
-                  <pre style={{fontSize: '12px'}}>{user.username}:  Level {user.charLvl}   {user.primaryWep}-{user.primaryWepLvl} | {user.secondaryWep}-{user.secondaryWepLvl}</pre>
+                  <pre style={{fontSize: '12px', whiteSpace: 'pre-wrap'}}>{user.username}:  Level {user.charLvl}   {user.primaryWep}-{user.primaryWepLvl} | {user.secondaryWep}-{user.secondaryWepLvl}</pre>
                 )
               })}
             </Card>
@@ -260,7 +260,7 @@ const SingleWar = () => {
               </Tooltip>} style={{ maxWidth: 350 }}>
               {healers.map((user) => {
                 return (
-                  <pre style={{fontSize: '12px'}}>{user.username}:  Level {user.charLvl}   {user.primaryWep}-{user.primaryWepLvl} | {user.secondaryWep}-{user.secondaryWepLvl}</pre>
+                  <pre style={{fontSize: '12px', whiteSpace: 'pre-wrap'}}>{user.username}:  Level {user.charLvl}   {user.primaryWep}-{user.primaryWepLvl} | {user.secondaryWep}-{user.secondaryWepLvl}</pre>
                 )
               })}
             </Card>
@@ -271,7 +271,7 @@ const SingleWar = () => {
               </Tooltip>} style={{ maxWidth: 350 }}>
               {artillery.map((user) => {
                 return (
-                  <pre style={{fontSize: '12px'}}>{user.username}:  Level {user.charLvl}   {user.primaryWep}-{user.primaryWepLvl} | {user.secondaryWep}-{user.secondaryWepLvl}</pre>
+                  <pre style={{fontSize: '12px', whiteSpace: 'pre-wrap'}}>{user.username}:  Level {user.charLvl}   {user.primaryWep}-{user.primaryWepLvl} | {user.secondaryWep}-{user.secondaryWepLvl}</pre>
                 )
               })}
             </Card>
