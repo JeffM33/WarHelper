@@ -7,7 +7,7 @@ import { useParams, Redirect } from 'react-router-dom';
 import { useQuery, useMutation } from '@apollo/client';
 
 import { QUERY_SINGLE_WAR, QUERY_ME } from '../utils/queries';
-import { ADD_TO_WAR, REMOVE_WAR } from '../utils/mutations';
+import { ADD_TO_WAR, REMOVE_WAR, UPDATE_TO_WAR } from '../utils/mutations';
 
 import Auth from '../utils/auth';
 
@@ -17,6 +17,7 @@ const SingleWar = () => {
 
   const [addToWar] = useMutation(ADD_TO_WAR);
   const [removeWar] = useMutation(REMOVE_WAR);
+  const [updateToWar] = useMutation(UPDATE_TO_WAR);
 
   const { warId } = useParams();
 
@@ -33,29 +34,44 @@ const SingleWar = () => {
   const healers = war?.healers || [];
   const artillery = war?.artillery || [];
 
+  let tankUsers = tanks.map(user => user.username);
+  let mdpsUsers = mdps.map(user => user.username);
+  let prdpsUsers = prdps.map(user => user.username);
+  let erdpsUsers = erdps.map(user => user.username);
+  let healersUsers = healers.map(user => user.username);
+  let artilleryUsers = artillery.map(user => user.username);
+
   const thisUser = userData?.me;
   let author = war?.warAuthor;
   let user = thisUser?.username;
   const deleteButton = author === user ? 'inline' : 'none';
 
-  const allUsers = [...tanks.map(user => user.username), 
-                  ...mdps.map(user => user.username), 
-                  ...prdps.map(user => user.username), 
-                  ...erdps.map(user => user.username),
-                  ...healers.map(user => user.username),
-                  ...artillery.map(user => user.username)];
+  const allUsers = [...tankUsers, 
+                  ...mdpsUsers, 
+                  ...prdpsUsers, 
+                  ...erdpsUsers,
+                  ...healersUsers,
+                  ...artilleryUsers];
 
   const [visible, setVisible] = useState(false);
   const [confirmLoading, setConfirmLoading] = useState(false);
   const [modalText, setModalText] = useState('');
   const [form] = Form.useForm();
   const [role, setRole] = useState('');
-  const [tankEditDisplay, setTankEditDisplay] = useState('none');
-  const [mdpsEditDisplay, setMdpsEditDisplay] = useState('none');
-  const [prdpsEditDisplay, setPrdpsEditDisplay] = useState('none');
-  const [erdpsEditDisplay, setErdpsEditDisplay] = useState('none');
-  const [healersEditDisplay, setHealersEditDisplay] = useState('none');
-  const [artilleryEditDisplay, setArtilleryEditDisplay] = useState('none');
+
+  let tankEditDisplay = 'none';
+  let mdpsEditDisplay = 'none';
+  let prdpsEditDisplay = 'none';
+  let erdpsEditDisplay = 'none';
+  let healersEditDisplay = 'none';
+  let artilleryEditDisplay = 'none';
+
+  let tankChangeDisplay = 'none';
+  let mdpsChangeDisplay = 'none';
+  let prdpsChangeDisplay = 'none';
+  let erdpsChangeDisplay = 'none';
+  let healersChangeDisplay = 'none';
+  let artilleryChangeDisplay = 'none';
 
   if (warLoading || userLoading) {
     return <div>Loading...</div>
@@ -66,11 +82,54 @@ const SingleWar = () => {
   let registerDisplay = 'none'
 
   if (Auth.loggedIn() && !allUsers.includes(user)) {
-    registerDisplay = 'inline'
+    registerDisplay = 'inline';
   } else {
-    registerDisplay = 'none'
+    registerDisplay = 'none';
+    if (tankUsers.includes(user)) {
+      tankEditDisplay = 'inline';
+      mdpsChangeDisplay = 'inline';
+      prdpsChangeDisplay = 'inline';
+      erdpsChangeDisplay = 'inline';
+      healersChangeDisplay = 'inline';
+      artilleryChangeDisplay = 'inline';
+    } else if (mdpsUsers.includes(user)) {
+      tankChangeDisplay = 'inline';
+      mdpsEditDisplay = 'inline';
+      prdpsChangeDisplay = 'inline';
+      erdpsChangeDisplay = 'inline';
+      healersChangeDisplay = 'inline';
+      artilleryChangeDisplay = 'inline';
+    } else if (prdpsUsers.includes(user)) {
+      tankChangeDisplay = 'inline';
+      mdpsChangeDisplay = 'inline';
+      prdpsEditDisplay = 'inline';
+      erdpsChangeDisplay = 'inline';
+      healersChangeDisplay = 'inline';
+      artilleryChangeDisplay = 'inline';
+    } else if (erdpsUsers.includes(user)) {
+      tankChangeDisplay = 'inline';
+      mdpsChangeDisplay = 'inline';
+      prdpsChangeDisplay = 'inline';
+      erdpsEditDisplay = 'inline';
+      healersChangeDisplay = 'inline';
+      artilleryChangeDisplay = 'inline';
+    } else if (healersUsers.includes(user)) {
+      tankChangeDisplay = 'inline';
+      mdpsChangeDisplay = 'inline';
+      prdpsChangeDisplay = 'inline';
+      erdpsChangeDisplay = 'inline';
+      healersEditDisplay = 'inline';
+      artilleryChangeDisplay = 'inline';
+    } else if (artilleryUsers.includes(user)) {
+      tankChangeDisplay = 'inline';
+      mdpsChangeDisplay = 'inline';
+      prdpsChangeDisplay = 'inline';
+      erdpsChangeDisplay = 'inline';
+      healersChangeDisplay = 'inline';
+      artilleryEditDisplay = 'inline';
+    }    
   }
-  
+
   const wepLvls = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20'];
   const charLvls = []
   for(let i=1; i<61; i++) {
@@ -107,44 +166,40 @@ const SingleWar = () => {
       return false;
     }
 
-    try {
-      const charLvl = values.charLvl;
-      const primaryWep = values.primaryWep;
-      const primaryWepLvl = values.primaryWepLvl;
-      const secondaryWep = values.secondaryWep;
-      const secondaryWepLvl = values.secondaryWepLvl;
-      const { data } = await addToWar({ variables: { warId, charLvl, primaryWep, primaryWepLvl, secondaryWep, secondaryWepLvl, role } });
-      if (!data) {
-        throw new Error("Couldn't add user to war!");
+    const charLvl = values.charLvl;
+    const primaryWep = values.primaryWep;
+    const primaryWepLvl = values.primaryWepLvl;
+    const secondaryWep = values.secondaryWep;
+    const secondaryWepLvl = values.secondaryWepLvl;
+
+    let messageText = '';
+    let descriptionText = '';
+    
+    if (allUsers.includes(user)) {
+      try {
+        const { data } = await updateToWar({ variables: { warId, charLvl, primaryWep, primaryWepLvl, secondaryWep, secondaryWepLvl, role } });
+        if (!data) {
+          throw new Error("Couldn't update user!");
+        }
+        messageText = 'Updated';
+        descriptionText = 'Thank you for updating your information!';
+      } catch (err) {
+        console.log(err);
       }
-    } catch (err) {
-      console.log(err)
+    } else {
+      try {
+        const { data } = await addToWar({ variables: { warId, charLvl, primaryWep, primaryWepLvl, secondaryWep, secondaryWepLvl, role } });
+        if (!data) {
+          throw new Error("Couldn't add user to war!");
+        }
+        messageText = 'Registered';
+        descriptionText = 'Thank you for registering for the upcoming invasion!';
+      } catch (err) {
+        console.log(err);
+      }
     }
 
     registerDisplay = 'none';
-
-    switch(role){
-      case 'tanks':
-        setTankEditDisplay('inline');
-        break;
-      case 'mdps':
-        setMdpsEditDisplay('inline');
-        break;
-      case 'prdps':
-        setPrdpsEditDisplay('inline');
-        break;
-      case 'erdps':
-        setErdpsEditDisplay('inline');
-        break;
-      case 'healers':
-        setHealersEditDisplay('inline');
-        break;
-      case 'artillery':
-        setArtilleryEditDisplay('inline');
-        break; 
-      default:
-        break;
-    }
 
     console.log('Success!', values, 'role:', role);
     setConfirmLoading(true);
@@ -152,9 +207,9 @@ const SingleWar = () => {
       setVisible(false);
       setConfirmLoading(false);
       notification['success']({
-        message: 'Registered',
+        message: `${messageText}`,
         description:
-          'Thank you for registering for the upcoming invasion!',
+          `${descriptionText}`,
         placement: 'topLeft'
       });
     }, 100);
@@ -255,7 +310,8 @@ const SingleWar = () => {
           <Col className="gutter-row" xs={24} md={8} style={{ padding: '8px 0' }}>
             <Card title="Tanks 🛡" headStyle={{ fontSize: '20px', backgroundColor: grey[7], color: 'white' }} bodyStyle={{ backgroundColor: grey[6], color: 'white'}} extra={<Tooltip title="Register for this war as a Tank" color = {purple[3]}>
               <Button onClick={showModal} type="primary" style={{backgroundColor: purple[3], borderColor: purple[3], display: registerDisplay}} size='small'><span data-role='tanks'>Register Now!</span></Button>
-              <Button onClick={showModal} type="primary" style={{backgroundColor: purple[3], borderColor: purple[3], display: tankEditDisplay}} size='small'><span data-role='tanks'>Update Role!</span></Button>
+              <Button onClick={showModal} type="primary" style={{backgroundColor: purple[3], borderColor: purple[3], display: tankEditDisplay}} size='small'><span data-role='tanks'>Update Info!</span></Button>
+              <Button onClick={showModal} type="primary" style={{backgroundColor: purple[3], borderColor: purple[3], display: tankChangeDisplay}} size='small'><span data-role='tanks'>Change Role!</span></Button>
               </Tooltip>} style={{ maxWidth: 350}}>
               {tanks.map((user) => {
                 return (
@@ -267,7 +323,8 @@ const SingleWar = () => {
           <Col className="gutter-row" xs={24} md={8} style={{padding: '8px 0'}}>
             <Card title="Melee DPS 🗡" headStyle={{ fontSize: '20px', backgroundColor: grey[7], color: 'white' }} bodyStyle={{ backgroundColor: grey[6], color: 'white'}} extra={<Tooltip title="Register for this war as a Melee DPS" color = {purple[3]}>
               <Button onClick={showModal} type="primary" style={{backgroundColor: purple[3], borderColor: purple[3], display: registerDisplay}} size='small'><span data-role='mdps'>Register Now!</span></Button>
-              <Button onClick={showModal} type="primary" style={{backgroundColor: purple[3], borderColor: purple[3], display: mdpsEditDisplay}} size='small'><span data-role='tanks'>Update Role!</span></Button>
+              <Button onClick={showModal} type="primary" style={{backgroundColor: purple[3], borderColor: purple[3], display: mdpsEditDisplay}} size='small'><span data-role='mdps'>Update Info!</span></Button>
+              <Button onClick={showModal} type="primary" style={{backgroundColor: purple[3], borderColor: purple[3], display: mdpsChangeDisplay}} size='small'><span data-role='mdps'>Change Role!</span></Button>
               </Tooltip>} style={{ maxWidth: 350 }}>
               {mdps.map((user) => {
                 return (
@@ -279,7 +336,8 @@ const SingleWar = () => {
           <Col className="gutter-row" xs={24} md={8} style={{padding: '8px 0'}}>
             <Card title="Physical DPS 🏹" headStyle={{ fontSize: '20px', backgroundColor: grey[7], color: 'white' }} bodyStyle={{ backgroundColor: grey[6], color: 'white'}} extra={<Tooltip title="Register for this war as a Physical DPS" color = {purple[3]}>
               <Button onClick={showModal} type="primary" style={{backgroundColor: purple[3], borderColor: purple[3], display: registerDisplay}} size='small'><span data-role='prdps'>Register Now!</span></Button>
-              <Button onClick={showModal} type="primary" style={{backgroundColor: purple[3], borderColor: purple[3], display: prdpsEditDisplay}} size='small'><span data-role='tanks'>Update Role!</span></Button>
+              <Button onClick={showModal} type="primary" style={{backgroundColor: purple[3], borderColor: purple[3], display: prdpsEditDisplay}} size='small'><span data-role='prdps'>Update Info!</span></Button>
+              <Button onClick={showModal} type="primary" style={{backgroundColor: purple[3], borderColor: purple[3], display: prdpsChangeDisplay}} size='small'><span data-role='prdps'>Change Role!</span></Button>
               </Tooltip>} style={{ maxWidth: 350 }}>
               {prdps.map((user) => {
                 return (
@@ -293,7 +351,8 @@ const SingleWar = () => {
           <Col className="gutter-row" xs={24} md={8} style={{padding: '8px 0'}}>
             <Card title="Elemental DPS 🔥" headStyle={{ fontSize: '20px', backgroundColor: grey[7], color: 'white' }} bodyStyle={{ backgroundColor: grey[6], color: 'white'}} extra={<Tooltip title="Register for this war as an Elemental DPS" color = {purple[3]}>
               <Button onClick={showModal} type="primary" style={{backgroundColor: purple[3], borderColor: purple[3], display: registerDisplay}} size='small'><span data-role='erdps'>Register Now!</span></Button>
-              <Button onClick={showModal} type="primary" style={{backgroundColor: purple[3], borderColor: purple[3], display: erdpsEditDisplay}} size='small'><span data-role='tanks'>Update Role!</span></Button>
+              <Button onClick={showModal} type="primary" style={{backgroundColor: purple[3], borderColor: purple[3], display: erdpsEditDisplay}} size='small'><span data-role='erdps'>Update Info!</span></Button>
+              <Button onClick={showModal} type="primary" style={{backgroundColor: purple[3], borderColor: purple[3], display: erdpsChangeDisplay}} size='small'><span data-role='erdps'>Change Role!</span></Button>
               </Tooltip>} style={{ maxWidth: 350 }}>
               {erdps.map((user) => {
                 return (
@@ -305,7 +364,8 @@ const SingleWar = () => {
           <Col className="gutter-row" xs={24} md={8} style={{padding: '8px 0'}}>
             <Card title="Healer 💝" headStyle={{ fontSize: '20px', backgroundColor: grey[7], color: 'white' }} bodyStyle={{ backgroundColor: grey[6], color: 'white'}} extra={<Tooltip title="Register for this war as a Healer" color = {purple[3]}>
               <Button onClick={showModal} type="primary" style={{backgroundColor: purple[3], borderColor: purple[3], display: registerDisplay}} size='small'><span data-role='healers'>Register Now!</span></Button>
-              <Button onClick={showModal} type="primary" style={{backgroundColor: purple[3], borderColor: purple[3], display: healersEditDisplay}} size='small'><span data-role='tanks'>Update Role!</span></Button>
+              <Button onClick={showModal} type="primary" style={{backgroundColor: purple[3], borderColor: purple[3], display: healersEditDisplay}} size='small'><span data-role='healers'>Update Info!</span></Button>
+              <Button onClick={showModal} type="primary" style={{backgroundColor: purple[3], borderColor: purple[3], display: healersChangeDisplay}} size='small'><span data-role='healers'>Change Role!</span></Button>
               </Tooltip>} style={{ maxWidth: 350 }}>
               {healers.map((user) => {
                 return (
@@ -317,7 +377,8 @@ const SingleWar = () => {
           <Col className="gutter-row" xs={24} md={8} style={{padding: '8px 0'}}>
             <Card title="Artillery 💥" headStyle={{ fontSize: '20px', backgroundColor: grey[7], color: 'white' }} bodyStyle={{ backgroundColor: grey[6], color: 'white'}} extra={<Tooltip title="Register for this war as Artillery" color = {purple[3]}>
               <Button onClick={showModal} type="primary" style={{backgroundColor: purple[3], borderColor: purple[3], display: registerDisplay}} size='small'><span data-role='artillery'>Register Now!</span></Button>
-              <Button onClick={showModal} type="primary" style={{backgroundColor: purple[3], borderColor: purple[3], display: artilleryEditDisplay}} size='small'><span data-role='tanks'>Update Role!</span></Button>
+              <Button onClick={showModal} type="primary" style={{backgroundColor: purple[3], borderColor: purple[3], display: artilleryEditDisplay}} size='small'><span data-role='artillery'>Update Info!</span></Button>
+              <Button onClick={showModal} type="primary" style={{backgroundColor: purple[3], borderColor: purple[3], display: artilleryChangeDisplay}} size='small'><span data-role='artillery'>Change Role!</span></Button>
               </Tooltip>} style={{ maxWidth: 350 }}>
               {artillery.map((user) => {
                 return (
