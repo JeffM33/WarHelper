@@ -7,7 +7,7 @@ import { useParams, Redirect } from 'react-router-dom';
 import { useQuery, useMutation } from '@apollo/client';
 
 import { QUERY_SINGLE_WAR, QUERY_ME } from '../utils/queries';
-import { ADD_TO_WAR, REMOVE_WAR, UPDATE_TO_WAR } from '../utils/mutations';
+import { ADD_TO_WAR, REMOVE_WAR, UPDATE_TO_WAR, CHANGE_ROLE } from '../utils/mutations';
 
 import Auth from '../utils/auth';
 
@@ -18,6 +18,7 @@ const SingleWar = () => {
   const [addToWar] = useMutation(ADD_TO_WAR);
   const [removeWar] = useMutation(REMOVE_WAR);
   const [updateToWar] = useMutation(UPDATE_TO_WAR);
+  const [changeRole] = useMutation(CHANGE_ROLE);
 
   const { warId } = useParams();
 
@@ -80,6 +81,7 @@ const SingleWar = () => {
   const token = Auth.loggedIn() ? Auth.getToken() : null;
   
   let registerDisplay = 'none'
+  let userRole = '';
 
   if (Auth.loggedIn() && !allUsers.includes(user)) {
     registerDisplay = 'inline';
@@ -92,6 +94,7 @@ const SingleWar = () => {
       erdpsChangeDisplay = 'inline';
       healersChangeDisplay = 'inline';
       artilleryChangeDisplay = 'inline';
+      userRole = 'tanks'
     } else if (mdpsUsers.includes(user)) {
       tankChangeDisplay = 'inline';
       mdpsEditDisplay = 'inline';
@@ -99,6 +102,7 @@ const SingleWar = () => {
       erdpsChangeDisplay = 'inline';
       healersChangeDisplay = 'inline';
       artilleryChangeDisplay = 'inline';
+      userRole = 'mdps';
     } else if (prdpsUsers.includes(user)) {
       tankChangeDisplay = 'inline';
       mdpsChangeDisplay = 'inline';
@@ -106,6 +110,7 @@ const SingleWar = () => {
       erdpsChangeDisplay = 'inline';
       healersChangeDisplay = 'inline';
       artilleryChangeDisplay = 'inline';
+      userRole = 'prdps';
     } else if (erdpsUsers.includes(user)) {
       tankChangeDisplay = 'inline';
       mdpsChangeDisplay = 'inline';
@@ -113,6 +118,7 @@ const SingleWar = () => {
       erdpsEditDisplay = 'inline';
       healersChangeDisplay = 'inline';
       artilleryChangeDisplay = 'inline';
+      userRole = 'erdps';
     } else if (healersUsers.includes(user)) {
       tankChangeDisplay = 'inline';
       mdpsChangeDisplay = 'inline';
@@ -120,6 +126,7 @@ const SingleWar = () => {
       erdpsChangeDisplay = 'inline';
       healersEditDisplay = 'inline';
       artilleryChangeDisplay = 'inline';
+      userRole = 'healers'
     } else if (artilleryUsers.includes(user)) {
       tankChangeDisplay = 'inline';
       mdpsChangeDisplay = 'inline';
@@ -127,6 +134,7 @@ const SingleWar = () => {
       erdpsChangeDisplay = 'inline';
       healersChangeDisplay = 'inline';
       artilleryEditDisplay = 'inline';
+      userRole = 'artillery';
     }    
   }
 
@@ -176,15 +184,28 @@ const SingleWar = () => {
     let descriptionText = '';
     
     if (allUsers.includes(user)) {
-      try {
-        const { data } = await updateToWar({ variables: { warId, charLvl, primaryWep, primaryWepLvl, secondaryWep, secondaryWepLvl, role } });
-        if (!data) {
-          throw new Error("Couldn't update user!");
+      if (userRole === role) {
+        try {
+          const { data } = await updateToWar({ variables: { warId, charLvl, primaryWep, primaryWepLvl, secondaryWep, secondaryWepLvl, role } });
+          if (!data) {
+            throw new Error("Couldn't update user!");
+          }
+          messageText = 'Updated!';
+          descriptionText = 'Your information has been updated!';
+        } catch (err) {
+          console.log(err);
         }
-        messageText = 'Updated';
-        descriptionText = 'Thank you for updating your information!';
-      } catch (err) {
-        console.log(err);
+      } else {
+        try {
+          const { data } = await changeRole({ variables: { warId, charLvl, primaryWep, primaryWepLvl, secondaryWep, secondaryWepLvl, role } });
+          if (!data) {
+            throw new Error("Couldn't update user!");
+          }
+          messageText = 'Updated!';
+          descriptionText = 'Your role has been changed!';
+        } catch (err) {
+          console.log(err);
+        }
       }
     } else {
       try {
@@ -192,7 +213,7 @@ const SingleWar = () => {
         if (!data) {
           throw new Error("Couldn't add user to war!");
         }
-        messageText = 'Registered';
+        messageText = 'Registered!';
         descriptionText = 'Thank you for registering for the upcoming invasion!';
       } catch (err) {
         console.log(err);
