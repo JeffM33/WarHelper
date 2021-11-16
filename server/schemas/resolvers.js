@@ -128,7 +128,136 @@ const resolvers = {
             return;
         }
       }
-    }
+    },
+
+    updateToWar: async(parent, { warId, charLvl, primaryWep, primaryWepLvl, secondaryWep, secondaryWepLvl, role }, context) => {
+      if(context.user) {
+        const username = context.user.username;
+        const user = { username, charLvl, primaryWep, primaryWepLvl, secondaryWep, secondaryWepLvl }
+        switch (role) {
+          case 'tanks':
+            await War.findOneAndUpdate(
+              { _id: warId },
+              { $pull: { tanks: { username: username } }},
+            );
+            return War.findOneAndUpdate(
+              { _id: warId},
+              { $addToSet: { tanks: user }},
+              { new: true }
+            );
+          case 'mdps':
+            await War.findOneAndUpdate(
+              { _id: warId },
+              { $pull: { mdps: { username: username } }}
+            )
+            return War.findOneAndUpdate(
+              { _id: warId},
+              { $addToSet: { mdps: user }},
+              { new: true }
+            );
+          case 'prdps':
+            await War.findOneAndUpdate(
+              { _id: warId },
+              { $pull: { prdps: { username: username } }}
+            )
+            return War.findOneAndUpdate(
+              { _id: warId},
+              { $addToSet: { prdps: user }},
+              { new: true }
+            );
+          case 'erdps':
+            await War.findOneAndUpdate(
+              { _id: warId },
+              { $pull: { erdps: { username: username } }}
+            )
+            return War.findOneAndUpdate(
+              { _id: warId},
+              { $addToSet: { erdps: user }},
+              { new: true }
+            );
+          case 'healers':
+            await War.findOneAndUpdate(
+              { _id: warId },
+              { $pull: { healers: { username: username } }}
+            )
+            return War.findOneAndUpdate(
+              { _id: warId},
+              { $addToSet: { healers: user }},
+              { new: true }
+            );
+          case 'artillery':
+            await War.findOneAndUpdate(
+              { _id: warId },
+              { $pull: { artillery: { username: username } }}
+            )
+            return War.findOneAndUpdate(
+              { _id: warId},
+              { $addToSet: { artillery: user }},
+              { new: true }
+            );
+          default: 
+            return;
+        }
+      }
+    },
+
+    changeRole: async (parent, { warId, charLvl, primaryWep, primaryWepLvl, secondaryWep, secondaryWepLvl, role }, context) => {
+      if(context.user) {
+        const username = context.user.username;
+        const user = { username, charLvl, primaryWep, primaryWepLvl, secondaryWep, secondaryWepLvl }
+        
+        await War.findOneAndUpdate(
+          { _id: warId },
+          { $pull: { tanks: { username: username }, 
+                     mdps: { username: username }, 
+                     prdps: { username: username },
+                     erdps: { username: username }, 
+                     healers: { username: username }, 
+                     artillery: { username: username } }}
+        );
+
+        switch (role) {
+          case 'tanks':
+            return War.findOneAndUpdate(
+              { _id: warId},
+              { $addToSet: { tanks: user }},
+              { new: true }
+            );
+          case 'mdps':
+            return War.findOneAndUpdate(
+              { _id: warId},
+              { $addToSet: { mdps: user }},
+              { new: true }
+            );
+          case 'prdps':
+            return War.findOneAndUpdate(
+              { _id: warId},
+              { $addToSet: { prdps: user }},
+              { new: true }
+            );
+          case 'erdps':
+            return War.findOneAndUpdate(
+              { _id: warId},
+              { $addToSet: { erdps: user }},
+              { new: true }
+            );
+          case 'healers':
+            return War.findOneAndUpdate(
+              { _id: warId},
+              { $addToSet: { healers: user }},
+              { new: true }
+            );
+          case 'artillery':
+            return War.findOneAndUpdate(
+              { _id: warId},
+              { $addToSet: { artillery: user }},
+              { new: true }
+            );
+          default: 
+            return;
+        }
+      }
+    },
   },
 };
 

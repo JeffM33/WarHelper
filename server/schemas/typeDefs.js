@@ -52,6 +52,8 @@ const typeDefs = gql`
     addWar(city: String!, date: String!, time: String!): War
     removeWar(warId: ID!): War
     addToWar(warId: ID!, charLvl: String!, primaryWep: String!, primaryWepLvl: String!, secondaryWep: String!, secondaryWepLvl: String!, role: String!): War
+    updateToWar(warId: ID!, charLvl: String!, primaryWep: String!, primaryWepLvl: String!, secondaryWep: String!, secondaryWepLvl: String!, role: String!): War
+    changeRole(warId: ID!, charLvl: String!, primaryWep: String!, primaryWepLvl: String!, secondaryWep: String!, secondaryWepLvl: String!, role: String!): War
   }
 `;
 
